@@ -1,0 +1,9 @@
+pdflatex kandi
+bibtex kandi
+pdflatex kandi
+pdflatex kandi
+rm kandi.aux
+rm kandi.blg
+rm kandi.log
+rm kandi.out
+rm kandi.toc

@@ -1,0 +1,24 @@
+\begin{thebibliography}{1}
+  \providebibliographyfont{name}{}%
+  \providebibliographyfont{lastname}{}%
+  \providebibliographyfont{title}{\emph}%
+  \providebibliographyfont{jtitle}{\btxtitlefont}%
+  \providebibliographyfont{etal}{\emph}%
+  \providebibliographyfont{journal}{}%
+  \providebibliographyfont{volume}{}%
+  \providebibliographyfont{ISBN}{\MakeUppercase}%
+  \providebibliographyfont{ISSN}{\MakeUppercase}%
+  \providebibliographyfont{url}{\url}%
+  \providebibliographyfont{numeral}{}%
+  \expandafter\btxselectlanguage\expandafter {\btxfallbacklanguage}
+
+\expandafter\btxselectlanguage\expandafter {\btxfallbacklanguage}
+\bibitem {marsjuttuja}
+\btxnamefont {\btxlastnamefont {Carsten}, Joseph} \btxandlong {}\ \btxnamefont
+  {\btxlastnamefont {Rankin}, Arturo}\btxauthorcolon\ \btxjtitlefont
+  {\btxifchangecase {Global planning on the mars exploration rovers: Software
+  integration and surface testing}{Global Planning on the Mars Exploration
+  Rovers: Software Integration and Surface Testing}}.
+\newblock \btxjournalfont {Journal of Field Robotics}, 2009.
+
+\end{thebibliography}

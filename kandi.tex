@@ -29,7 +29,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{microtype}
-\usepackage{amsfonts,amsmath,amssymb,amsthm,booktabs,color,enumitem,graphicx}
+\usepackage{amsfonts,amsmath,amssymb,amsthm,booktabs,color,enumitem,graphicx,listings}
 \usepackage[pdftex,hidelinks]{hyperref}
 
 % Automatically set the PDF metadata fields
@@ -148,17 +148,54 @@ missä \(y\) on etäisyys \(s_1\):stä \(s_y\):hyn. Tulee kuitenkin huomata, ett
 
 Approksimaation perusteella solmun \(s\) kustannus kun tiedetään \(s1\), \(s2\), ruutukustannukset \(c\) ja \(b\) voidaan laskea seuraavasti:
 
-SIT TAAS YKS NIIN JEBIN KAAVA TÄHÄN BUDDY ET EI MIDIST RAJOI :D:D:D
-HUOM. MUISTA SELITYKSET JÄBÄ :D:D::D
+\[\min_{x,y}[bx+c\sqrt{(1-x)^2+y^2}+g(s_2)y+g(s_1)(1-y)],\]
+missä $x \in [0,1]$ on solmusta $s$ alareunaa pitkin kuljettu matka kunnes käännytään ruudun yli kohti oikeaa reunaa pisteeseen, joka on $y \in [0,1]$ etäisyyden päässä solmusta $s_1$.
 
-Tehdään vielä oletus, että (x*, y*) ovat x:n ja y:n arvot, joilla ylläoleva kaava saadaan ratkaistua. Lineaarisen interpoloinnin johdosta toinen arvoista on joko yksi tai nolla. Mikäli kustannus liikkua ruudun c yli on pienempi kuin ruudun reunoja pitkin kulkeminen niin halvin reitti halkaisee ruudun c ja täten joko x* = 0 tai y* = 1. Jos taas polku ei halkaise ruutua c niin y* = 0. Täten polku on kulkee solmusta s suoraan alareunaa pitkin kohtia solmua s1, siirtyy jonkin matkan x alareunalla ja leikkaa tämän jälkeen ruudun halki suoraan solmuun s2, tai halkaisee ruudun c kulkemalla suoraan solmusta s johonkin oikean reunan pisteeseen s_y. Halvin polku riippuu c:n ja b:n koosta, sekä s_1:n ja s_2:n kustannuserosta f = g(s_1) - g(s_2). Mikäli f < 0 niin paras mahdollinen polku on 1. tapaus, jos taas f = b niin polun kustannus kulkien jonkin matkan alareunaa on yhtäpitävä sen kanssa, että alareunaa ei kuljeta ollenkaan. Jälkimmäisestä polusta voidaan ratkaista kustannuksen minimoiva y seuraavasti:
+Tehdään vielä oletus, että \((x^*, y^*)\) ovat \(x\):n ja \(y\):n arvot, joilla ylläoleva kaava saadaan ratkaistua. Lineaarisen interpoloinnin johdosta toinen arvoista on joko yksi tai nolla. Mikäli kustannus liikkua ruudun \(c\) yli on pienempi kuin ruudun reunoja pitkin kulkeminen niin halvin reitti halkaisee ruudun \(c\) ja täten joko \(x^* = 0\) tai \(y^* = 1\). Jos taas polku ei halkaise ruutua \(c\) niin \(y^* = 0\). Täten polku on kulkee solmusta \(s\) suoraan alareunaa pitkin kohtia solmua \(s1\), siirtyy jonkin matkan \(x\) alareunalla ja leikkaa tämän jälkeen ruudun halki suoraan solmuun \(s2\), tai halkaisee ruudun \(c\) kulkemalla suoraan solmusta \(s\) johonkin oikean reunan pisteeseen \(s_y\). Halvin polku riippuu \(c\):n ja \(b\):n koosta, sekä \(s_1\):n ja \(s_2\):n kustannuserosta \(f = g(s_1) - g(s_2)\). Mikäli \(f < 0\) niin paras mahdollinen polku on 1. tapaus, jos taas \(f = b\) niin polun kustannus kulkien jonkin matkan alareunaa on yhtäpitävä sen kanssa, että alareunaa ei kuljeta ollenkaan. Jälkimmäisestä polusta voidaan ratkaista kustannuksen minimoiva \(y\) seuraavasti.
 
-KAAVAA TAAS TÄNNE NÄ-IN :)))
+Olkoon $k = f = b$. Kustannus solmusta $s$ kaaren $\overrightarrow{s_1s_2}$ lävitse on
 
-Lopputulos on sama huolimatta siitä kuljetaanko alareunaa pitkin, joten merkitseväksi tekijäksi jää se kumpaa reunaa kulkeminen tulee halvemmaksi. Mikäli f < b niin käytetään oikeaa reunaa ja lasketaan polun kustannus arvolla k = f. Jos taas b < f niin käytetään alareunaa jolloin k = b ja y* = 1 - x*. Täten algoritmi halvimman polun laskemiseen solmusta s mihin tahansa pisteeseen kaarelle, joka sijaitsee vierekkäisten naapurien s_a ja s_b välissä laskemiseen on seuraava:
+\[c\sqrt{1+y^2}+k(1-y)+g(s2).\]
+Jossa kustannuksen derivaatasta suhteessa \(y\):hyn ja asettamalla se nollaksi saadaan
+\[y^* = \sqrt{\frac{k^2}{(c^2-k^2)}}\]
+
+Lopputulos on sama huolimatta siitä kuljetaanko alareunaa pitkin, joten merkitseväksi tekijäksi jää se kumpaa reunaa kulkeminen tulee halvemmaksi. Mikäli \(f < b\) niin käytetään oikeaa reunaa ja lasketaan polun kustannus arvolla \(k = f\). Jos taas \(b < f\) niin käytetään alareunaa jolloin \(k = b\) ja \(y^* = 1 - x^*\). Täten algoritmi halvimman polun laskemiseen solmusta \(s\) mihin tahansa pisteeseen kaarelle, joka sijaitsee vierekkäisten naapurien \(s_a\) ja \(s_b\) välissä laskemiseen on seuraava:
+
 
 ALGO :))
+\begin{lstlisting}[mathescape=true]
+ComputeCost($s,s_a,s_b$)
+if ($s_a$ on solmun $s$ diagonaalinaapuri)
+	$s_1 = s_b;$
+	$s_2 = s_a;$
+else
+	$s_1 = s_a;$
+	$s_2 = s_b;$
 
+$c$ on kustannus ruudulle, jonka kulmat ovat $s, s_1, s_2$;
+$b$ on kustannus ruudulle, jonka kulmat ovat $s, s_1$, mutta ei $s_2$;
+
+if ($\min(c,b) = \infty$)
+	$v_s = \infty;$
+else if ($g(s_1) \leq g(s_2)$)
+	$v_s = \min(c,b) + g(s_1);$
+else
+	$f = g(s_1) - g(s_2);$
+	if ($f \leq b$)
+		if ($c \leq f$)
+			$v_s = c\sqrt{2} + g(s_2);$
+		else
+			$y = \min(\frac{f}{\sqrt{c^2-f^2}}, 1);$
+			$v_s = c\sqrt{1+y^2}+f(1-y)+g(s_2);$
+	else
+		if($c \leq b$)
+			$v_s = c\sqrt{2}+g(s_2);$
+		else
+			$x = 1-\min(\frac{b}{\sqrt{c^2-b^2}},1);$
+			$v_s = c\sqrt{1+(1-x)^2}+bx+g(s_2);$
+return $v_s$;
+
+\end{lstlisting}
 % --- References ---
 %
 % bibtex is used to generate the bibliography. The babplain style

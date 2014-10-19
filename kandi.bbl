@@ -1,20 +1,18 @@
-\begin{thebibliography}{1}
-  \providebibliographyfont{name}{}%
-  \providebibliographyfont{lastname}{}%
-  \providebibliographyfont{title}{\emph}%
-  \providebibliographyfont{jtitle}{\btxtitlefont}%
-  \providebibliographyfont{etal}{\emph}%
-  \providebibliographyfont{journal}{}%
-  \providebibliographyfont{volume}{}%
-  \providebibliographyfont{ISBN}{\MakeUppercase}%
-  \providebibliographyfont{ISSN}{\MakeUppercase}%
-  \providebibliographyfont{url}{\url}%
-  \providebibliographyfont{numeral}{}%
-  \expandafter\btxselectlanguage\expandafter {\btxfallbacklanguage}
+\begin{thebibliography}{KL02}
 
-\expandafter\btxselectlanguage\expandafter {\btxfallbacklanguage}
-\bibitem {esimerkki2}
-\btxnamefont {\btxlastnamefont {Rand}, Ayn}\btxauthorcolon\ \btxpublisherfont
-  {\btxtitlefont {The Fountainhead}}.
+\bibitem[FS07]{ferguson2007field}
+Dave Ferguson and Anthony Stentz.
+\newblock Field d*: An interpolation-based path planner and replanner.
+\newblock In {\em Robotics Research}, pages 239--253. Springer, 2007.
+
+\bibitem[KL02]{koenig2002d}
+Sven Koenig and Maxim Likhachev.
+\newblock D* lite.
+\newblock In {\em AAAI/IAAI}, pages 476--483, 2002.
+
+\bibitem[Ste95]{stentz1995focussed}
+Anthony Stentz.
+\newblock The focussed d\^{}* algorithm for real-time replanning.
+\newblock In {\em IJCAI}, volume~95, pages 1652--1659, 1995.
 
 \end{thebibliography}

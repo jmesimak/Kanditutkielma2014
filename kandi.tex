@@ -124,13 +124,13 @@
 
 \section{Ensimmäinen luku}
 % Write some science here.
-Tiedettä tekstimuodossa ja muutama kuva.\newline
-Esimerkkilause ja lähdeviite~\cite{esimerkki2}.
+\section{Field D* ja lineaarinen interpolointi}
 
-\section{Globaalin reitinsuunnittelun toteutus Field D*-algoritmilla}
+\subsection{Aikaisemmat algoritmit}
+Useimmissa mobiilirobotiikan navigaatiosovelluksissa ympäristöä mallinnetaan ruudukkona, jossa jokainen ruutu saa arvokseen jonkin arvion sen kuljettavuudesta. Tällä tavoin robotti voi tarvittaessa väistää ympäristössään sijaitsevia esteitä tai liian vaaralliseksi koettuja alueita. Ruudukon lisäksi yleisesti käytetyt algoritmit generoivat myös verkon, jonka solmut sijoitetaan keskelle jokaista ruutua. Verkon kaaret muodostetaan ruudussa sijaitsevan solmun ja tämän naapuriruutuihin asetettujen solmujen välille. Tässä mallissa reitinhaku verkossa voidaan toteuttaa esimerkiksi Anthony Stentzin vuonna 1995 esittelemän D*-algoritmin avulla \cite{stentz1995focussed}. Pääasialliseksi ongelmaksi jää kuitenkin em. kyky löytyää vain sellaiset reitit, joissa robotti liikkuu $\pi/4$ käännöksillä ruutujen välillä.
 
 \subsection{Kustannusarvion parantaminen interpoloinnin avulla}
-Algoritmin perustana toimii metodi, jossa jokaisesta ruudukossa sijaitsevasta solmusta lasketaan halvin mahdollinen kustannusarvio haluttuun kohdepisteeseen. Perinteisesti ruudukkopohjaisessa reitinsuunnittelussa on käytetty seuraavaa kaavaa:
+Algoritmin perustana toimii metodi, jossa jokaisesta ruudukossa sijaitsevasta solmusta lasketaan halvin mahdollinen kustannusarvio haluttuun kohdepisteeseen \cite{ferguson2007field}. Perinteisesti ruudukkopohjaisessa reitinsuunnittelussa on käytetty seuraavaa kaavaa:
 
 \[g(s) = \min_{s'\in nbrs(s)} (c(s, s') +g(s')),\]
 missä \(nbrs(s)\) on joukko kaikista solmun \(s\) naapureista, \(c(s,s')\) on kustannus kulkemiseen kaaren \(s\) ja \(s'\) välillä, sekä \(g(s')\) on kustannusarvio solmulle \(s'\).
@@ -161,39 +161,84 @@ Jossa kustannuksen derivaatasta suhteessa \(y\):hyn ja asettamalla se nollaksi s
 
 Lopputulos on sama huolimatta siitä kuljetaanko alareunaa pitkin, joten merkitseväksi tekijäksi jää se kumpaa reunaa kulkeminen tulee halvemmaksi. Mikäli \(f < b\) niin käytetään oikeaa reunaa ja lasketaan polun kustannus arvolla \(k = f\). Jos taas \(b < f\) niin käytetään alareunaa jolloin \(k = b\) ja \(y^* = 1 - x^*\). Täten algoritmi halvimman polun laskemiseen solmusta \(s\) mihin tahansa pisteeseen kaarelle, joka sijaitsee vierekkäisten naapurien \(s_a\) ja \(s_b\) välissä laskemiseen on seuraava:
 
+\lstset{basicstyle=\tiny, tabsize=4}
 \begin{lstlisting}[mathescape=true]
 ComputeCost($s,s_a,s_b$)
-if ($s_a$ on solmun $s$ diagonaalinaapuri)
-	$s_1 = s_b;$
-	$s_2 = s_a;$
-else
-	$s_1 = s_a;$
-	$s_2 = s_b;$
-
-$c$ on kustannus ruudulle, jonka kulmat ovat $s, s_1, s_2$;
-$b$ on kustannus ruudulle, jonka kulmat ovat $s, s_1$, mutta ei $s_2$;
-
-if ($\min(c,b) = \infty$)
-	$v_s = \infty;$
-else if ($g(s_1) \leq g(s_2)$)
-	$v_s = \min(c,b) + g(s_1);$
-else
-	$f = g(s_1) - g(s_2);$
-	if ($f \leq b$)
-		if ($c \leq f$)
-			$v_s = c\sqrt{2} + g(s_2);$
-		else
-			$y = \min(\frac{f}{\sqrt{c^2-f^2}}, 1);$
-			$v_s = c\sqrt{1+y^2}+f(1-y)+g(s_2);$
+	if ($s_a$ on solmun $s$ diagonaalinaapuri)
+		$s_1 = s_b;$
+		$s_2 = s_a;$
 	else
-		if($c \leq b$)
-			$v_s = c\sqrt{2}+g(s_2);$
+		$s_1 = s_a;$
+		$s_2 = s_b;$
+
+	$c$ on kustannus ruudulle, jonka kulmat ovat $s, s_1, s_2$;
+	$b$ on kustannus ruudulle, jonka kulmat ovat $s, s_1$, mutta ei $s_2$;
+
+	if ($\min(c,b) = \infty$)
+		$v_s = \infty;$
+	else if ($g(s_1) \leq g(s_2)$)
+		$v_s = \min(c,b) + g(s_1);$
+	else
+		$f = g(s_1) - g(s_2);$
+		if ($f \leq b$)
+			if ($c \leq f$)
+				$v_s = c\sqrt{2} + g(s_2);$
+			else
+				$y = \min(\frac{f}{\sqrt{c^2-f^2}}, 1);$
+				$v_s = c\sqrt{1+y^2}+f(1-y)+g(s_2);$
 		else
-			$x = 1-\min(\frac{b}{\sqrt{c^2-b^2}},1);$
-			$v_s = c\sqrt{1+(1-x)^2}+bx+g(s_2);$
-return $v_s$;
+			if($c \leq b$)
+				$v_s = c\sqrt{2}+g(s_2);$
+			else
+				$x = 1-\min(\frac{b}{\sqrt{c^2-b^2}},1);$
+				$v_s = c\sqrt{1+(1-x)^2}+bx+g(s_2);$
+	return $v_s$;
+\end{lstlisting}
+
+\subsection{Field D*}
+Seuraava algoritmi on optimoimaton esimerkki Field D*:in toteutuksesta \cite{ferguson2007field}, joka pohjautuu aikaisempaan D* Lite-algoritmiin \cite{koenig2002d}. Sen tarkoituksena on koota ylempänä esitellyn interpoloinnin avulla lasketut kustannukset yhteen ja muodostaa edullisin reitti kahden pisteen välillä. Algoritmi on toteutettu siten, että se ottaa huomioon muutokset ympäristössä, joita voi syntyä esimerkiksi sään muuttumisen seurauksena.
+
+\lstset{basicstyle=\tiny, tabsize=4}
+\begin{lstlisting}[mathescape=true]
+key($s$)
+	return $[\min(g(s), rhs(s)) + h(s_start, s); min(g(s), rhs(s))]$;
+
+UpdateState($s$)
+	if solmussa $s$ ei ole viela kayty
+		$g(s) = \infty;$
+	if $(s \neq s_{goal})$
+		$rhs(s) = \min_{(s',s'') \in connbrs(s)}ComputeCost(s, s', s'');$
+	if $(s \in OPEN)$
+		$OPEN.remove(s);$
+	if $(g(s) \neq rhs(s))$
+		$OPEN.insert(key(s): s)$
+
+ComputeShortestsPath()
+	while $(\min_{s \in OPEN}(key(s)) < key(s_{start}) \quad || \quad rhs(s_{start}) \neq g(s_{start}))$
+		OPEN.remove(smallest($s$));
+		if ($g(s) > rhs(s))$
+			$g(s) = rhs(s);$
+			for all $s' \in nrbs(s) \quad UpdateState(s');$
+		else
+			$g(s) = \infty;$
+			for all $s' \in nbrs(s) \quad UpdateState(s');$
+
+Main()
+	$g(s_{start}) = rhs(s_{start}) = \infty;$
+	$g(s_{goal}) = \infty;$
+	$OPEN.insert(key(s_{goal}): s_{goal})$
+	while true
+		ComputeShortestPath();
+		Odota muutoksia ruutujen kustannusarvioissa
+		for x in muuttuneet_ruudut
+			for $s$ in x
+				UpdateState($s$);
+
 
 \end{lstlisting}
+
+
+
 % --- References ---
 %
 % bibtex is used to generate the bibliography. The babplain style
@@ -204,7 +249,7 @@ return $v_s$;
 %
 % instead.
 
-\bibliographystyle{babplain-lf}
+\bibliographystyle{alpha}
 \bibliography{references-fi}
 
 

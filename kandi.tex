@@ -122,7 +122,22 @@
 
 \mainmatter       % clear page, start arabic page numbering
 
-\section{Ensimmäinen luku}
+\section{Johdanto}
+
+Ihmiskunta on ollut kiinnostunut avaruudesta ja erityisesti lähiplaneetoistaan jo antiikin ajoista asti. Tähtitieteen historiaan mahtuu useita merkkitäviä läpimurtoja kuten aurinkokeskeisen maailmankuvan ymmärtäminen ja vuoden 1969 Apollo-ohjelman miehitetty lento Kuuhun. Intressit avaruuden tutkimiselle kasvavat jatkuvasti ja viimevuosina myös kaupalliset tahot ovat luoneet työllisyyttä esimerkiksi avaruusturismin avulla. Jotkin yritykset tutkailevat jo mahdollisuuksia kaivaa kallisarvoisia mineraaleja planeettaamme kiertävistä asteroideista. Kaikki tämä vaatii useiden eri tieteenalojen yhteistyötä, jotta teknologiat kehittyisivät vastaamaan avaruuden asettamia haasteita.
+
+Viimeisten vuosikymmenten aikana keskeisiksi tutkimusvälineiksi aurinkokuntamme kartoittamisessa ovat muodostuneet miehittämättömät avaruusluotaimet, joiden avulla tiedemiehet ovat keränneet huomattavia määriä kiinnostavaa dataa Maan naapureista. Tänä päivänä luotaimia löytyy jo useimpien planeettojen kiertoradoilta, Venuksen ja Marsin pinnoilta sekä tuoreimpien arvioiden mukaan Aurinkokunnan ulkopuolelta.
+
+Kosmisessa mittakaavassa etäisyydet ovat aivan omaa luokkaansa ja tästä syystä luotainten ohjaaminen Maasta käsin on useimmissa tapauksissa hidasta. Asiaa hankaloittaa myös se ettei reaaliaikaisen kuvan saaminen ole mahdollista vaikka radioaallot kulkevat valonnopeudella halki avaruuden. Tästä johtuen tiedemiehet ovat pyrkineet automatisoimaan erilaisin algoritmein luotaintensa toimintaa. Tekoälyä taas käytetään, jotta laite kykenisi suorittamaan sille annetut tehtävät mahdollisimman itsenäisesti. Esimerkiksi Mars-mönkijät pyrkivät väistelemään maastosta löytyviä vaaroja kuvaamalla omaa ympäristöään ja analysoimalla sen perusteella itselleen suotuisimpia reittejä.
+
+Uusimpien mönkijöiden kohdalla on jo mahdollista päivittää näiden ohjelmistoa vaikka ne sijaitsisivat toisella planeetalla. Siksi onkin oleellista jatkaa niissä käytettyjen ohjelmistojen kehittämistä vielä laukaisun jälkeen, jolloin laitteistojen potentiaalinen hyöty kasvaa ja tarve uusien laitteiden lähettämiselle avaruuteen pienenee.
+
+\section{MER eli Mars Exploration Rover}
+\subsection{Mönkijälle asetetut tavoitteet}
+\subsection{Laitteisto}
+\subsection{AutoNav}
+\subsection{GESTALT ennen globaalia reitinsuunnittelua}
+\subsection{Päivitetty GESTALT}
 % Write some science here.
 \section{Field D* ja lineaarinen interpolointi}
 
@@ -237,7 +252,10 @@ Main()
 
 \end{lstlisting}
 
+Pseudokoodissa $connbrs(s)$ on joukko solmun $s$ perättäisiä naapuripareja: ${(s_1,s_2), (s_2,s_3), (s_3,s_4),(s_4,s_5),(s_5,s_6),(s_6,s_7),(s_7,s_8),(s_8,s_1)}$. $g(s)$ on solmun s kustannusarvio, $rhs(s)$ kertoo arvion solmun $s$ kustannuksesta yhden askeleen päästä, $OPEN$ toimii prioriteettijonona nousevassa järjestyksessä solmuille, joille $g(s) \neq rhs(s)$. $h(s_{start}, s)$ on heuristinen arvio kustannuksesta $s_{start}$ solmusta solmuun $s$.
 
+
+\section{Visuaalinen paikannus}
 
 % --- References ---
 %

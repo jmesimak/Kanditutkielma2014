@@ -1,19 +1,39 @@
-\begin{thebibliography}{MCM07}
+\newcommand{\etalchar}[1]{$^{#1}$}
+\begin{thebibliography}{GCV{\etalchar{+}}12}
+
+\bibitem[CMM05]{cheng2005visual}
+Yang Cheng, Mark Maimone, and Larry Matthies.
+\newblock Visual odometry on the mars exploration rovers.
+\newblock In {\em Systems, Man and Cybernetics, 2005 IEEE International
+  Conference on}, volume~1, pages 903--910. IEEE, 2005.
 
 \bibitem[FS07]{ferguson2007field}
 Dave Ferguson and Anthony Stentz.
 \newblock Field d*: An interpolation-based path planner and replanner.
 \newblock In {\em Robotics Research}, pages 239--253. Springer, 2007.
 
+\bibitem[GCV{\etalchar{+}}12]{grotzinger2012mars}
+John~P Grotzinger, Joy Crisp, Ashwin~R Vasavada, Robert~C Anderson, Charles~J
+  Baker, Robert Barry, David~F Blake, Pamela Conrad, Kenneth~S Edgett, Bobak
+  Ferdowski, et~al.
+\newblock Mars science laboratory mission and science investigation.
+\newblock {\em Space Science Reviews}, 170(1-4):5--56, 2012.
+
+\bibitem[Hon10]{hong2010study}
+Wenxian Hong.
+\newblock {\em A study of fast, robust stereo-matching algorithms}.
+\newblock PhD thesis, Massachusetts Institute of Technology, 2010.
+
 \bibitem[KL02]{koenig2002d}
 Sven Koenig and Maxim Likhachev.
 \newblock D* lite.
 \newblock In {\em AAAI/IAAI}, pages 476--483, 2002.
 
-\bibitem[MCM07]{maimone2007two}
-Mark Maimone, Yang Cheng, and Larry Matthies.
-\newblock Two years of visual odometry on the mars exploration rovers.
-\newblock {\em Journal of Field Robotics}, 24(3):169--186, 2007.
+\bibitem[Mor80]{moravec1980obstacle}
+Hans~P Moravec.
+\newblock Obstacle avoidance and navigation in the real world by a seeing robot
+  rover.
+\newblock Technical report, DTIC Document, 1980.
 
 \bibitem[MS87]{matthies}
 Larry Matthies and Steven~A Shafer.

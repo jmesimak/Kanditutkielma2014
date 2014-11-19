@@ -1,4 +1,4 @@
-\begin{thebibliography}{KL02}
+\begin{thebibliography}{MCM07}
 
 \bibitem[FS07]{ferguson2007field}
 Dave Ferguson and Anthony Stentz.
@@ -9,6 +9,16 @@ Dave Ferguson and Anthony Stentz.
 Sven Koenig and Maxim Likhachev.
 \newblock D* lite.
 \newblock In {\em AAAI/IAAI}, pages 476--483, 2002.
+
+\bibitem[MCM07]{maimone2007two}
+Mark Maimone, Yang Cheng, and Larry Matthies.
+\newblock Two years of visual odometry on the mars exploration rovers.
+\newblock {\em Journal of Field Robotics}, 24(3):169--186, 2007.
+
+\bibitem[MS87]{matthies}
+Larry Matthies and Steven~A Shafer.
+\newblock Error modeling in stereo navigation.
+\newblock {\em Robotics and Automation, IEEE Journal of}, 3(3):239--248, 1987.
 
 \bibitem[Ste95]{stentz1995focussed}
 Anthony Stentz.

@@ -71,7 +71,7 @@
 % The following commands define the information used to generate title and
 % abstract pages. The following entries should be always specified:
 
-\title{Mars-luotainten reitinhakualgoritmit}
+\title{Mars-luotainten reitinhakualgoritmit ja visuaalinen paikantaminen}
 \author{Jerry Mesimäki}
 \date{\today}
 \level{Kandidaatintutkielma}
@@ -80,6 +80,8 @@
 % The following can be used to specify keywords and classification of the paper:
 
 \keywords{avainsana 1, avainsana 2, avainsana 3}
+
+\setcounter{secnumdepth}{5}	
 
 % classification according to ACM Computing Classification System (http://www.acm.org/about/class/)
 % This is probably mostly relevant for computer scientists
@@ -133,9 +135,20 @@ Kosmisessa mittakaavassa etäisyydet ovat aivan omaa luokkaansa ja tästä syyst
 Uusimpien mönkijöiden kohdalla on jo mahdollista päivittää näiden ohjelmistoa vaikka ne sijaitsisivat toisella planeetalla. Siksi onkin oleellista jatkaa niissä käytettyjen ohjelmistojen kehittämistä vielä laukaisun jälkeen, jolloin laitteistojen potentiaalinen hyöty kasvaa ja tarve uusien laitteiden lähettämiselle avaruuteen pienenee.
 
 \section{MER eli Mars Exploration Rover}
-\subsection{Mönkijälle asetetut tavoitteet}
+Marsiin lähetettiin vuonna 2003 Nasan toimesta kaksi MER-laitetta (Mars Explorarion Rover, myöhemmin mönkijä) – Spirit sekä Rover – etsimään merkkejä veden esiintymisestä planeetan pinnalta. Yksi ongelmista on mönkijöiden liikuttelu maasta käsin 26 minuuttia kestävän signaalin siirtymisestä aiheutuvan viiveen takia. Tyypillisesti laitteille lähetetään komentoja vain aamuisin kerran Marsin vuorokaudessa (myöhemmin kierto), jotka ne toteuttavat kierron aikana. Ennen iltaa niiden keräämä data taas lähetetään Maahan analysoitavaksi. Tästä johtuen mönkijöiden riittävä autonomia on kriittistä, jotta ne kykenisivät liikkumaan mahdollisimman nopeasti tieteellisesti kiinnostavien kohteiden välillä.
+
+Mönkijöitä voidaan liikuttaa kahdella eri tavalla: sokkoajona, jossa Maahan saapuneista kuvista päätellään mihin suuntaan on turvallista ajaa ja ajaminen suoritetaan vaaroista välittämättä haluttuun kohteeseen. Toinen vaihtoehto on luovuttaa vastuu ajamisesta mönkijöissä sijaitsevalle AutoNav-järjestelmälle, joka pyrkii liikkumaan haluttuun kohteeseen ottaen kuitenkin huomioon ympäristössä sijaitsevat vaarat ja väistämään niitä. Useimmiten näitä käytetään yhdessä siten, että sokkoajoa sovelletaan niin pitkälle kuin saaduista kuvista päätellen on turvallista ja tämän jälkeen AutoNav jatkaa ajamista.
+
+Toisinaan automaatio ei toimi ja tämä estää mönkijöitä saavuttamasta kohteitaan. Heinäkuussa 2006 molemmat saivat järjestelmäpäivityksen mukana korjauksia em. ongelmaan, joita tämä essee pääasiassa käsittelee.
+\subsection{Mönkijöille asetetut tavoitteet}
 \subsection{Laitteisto}
 \subsection{AutoNav}
+AutoNav perustuu GESTALT-algoritmiin (grid-based estimation of surface traversability applied to local terrain), jossa mönkijän stereokameroiden ottamista kuvista luodaan malli tämän välittömästä ympäristöstä. Yksi osa mallista on ruudukkopohjainen hyvyyskartta. Kartalla jokainen solu saa sen ajettavuutta kuvaava hyvyysarvon. Hankala maasto tuottaa matalan arvon ja helppo maasto korkean. Maastoa, jota mönkijä ei voi läpäistä levitetään kartalla mönkijän koon verran, jolloin laite voidaan sijoittaa pisteeksi kartalle laskentaa varten.
+
+Kartoituksen jälkeen järjestelmä luo joukon kaaria, joita pitkin kulkemalla voidaan saavuttaa haluttu kohde. Mikäli kaari ei ole suora niin sille lasketaan myös kääntymispisteet. Jokaista kaarta arvioidaan kolmella kriteerillä: vaarojen välttely, kääntymisajan minimointi ja kohteen saavuttaminen. Arvion perusteella sovellus järjestää kaarien välille äänestyksen siten, että hyvyyskartalla turvallisille kaarille annetaan enemmän ääniä kuin turvattomille, kääntymispisteiden lukumäärä korreloi negatiivisesti annettujen äänien kanssa ja mönkijää lähemmäksi kohti kohdetta vievät kaaret saavat enemmän ääniä. Äänet lasketaan tämän jälkeen yhteen ja mönkijä ajaa pienen ennalta määrätyn matkan voittanutta kaarta. Edellä selitettyä prosessia toistetaan kunnes kohde saavutetaan, ennalta määrätty tavoiteaika ylittyy tai tapahtuu virhe.
+
+Ongelmaksi MER-laitteiden järjestelmän ensimmäisessä versiossa muodostui tilanne, jossa mönkijä kohtasi riittävän ison kiviröykkiön. Sen kiertämiseksi olisi jouduttu valitsemaan sellainen kaari, joka ei vie mönkijää riittävän suoraan kohti kohdetta. Suoremmat kaaret taas kulkivat kivien yli. Tilanne aiheutti äänestysvaiheessa konfliktin, jossa vaaran välttäminen oli liian suuressa konfliktissa suorimman reitin haun kanssa. Järjestelmä ei antanut mönkijän liikkua mihinkään suuntaan.
+
 \subsection{GESTALT ennen globaalia reitinsuunnittelua}
 \subsection{Päivitetty GESTALT}
 % Write some science here.
@@ -254,18 +267,61 @@ Main()
 
 Pseudokoodissa $connbrs(s)$ on joukko solmun $s$ perättäisiä naapuripareja: ${(s_1,s_2), (s_2,s_3), (s_3,s_4),(s_4,s_5),(s_5,s_6),(s_6,s_7),(s_7,s_8),(s_8,s_1)}$. $g(s)$ on solmun s kustannusarvio, $rhs(s)$ kertoo arvion solmun $s$ kustannuksesta yhden askeleen päästä, $OPEN$ toimii prioriteettijonona nousevassa järjestyksessä solmuille, joille $g(s) \neq rhs(s)$. $h(s_{start}, s)$ on heuristinen arvio kustannuksesta $s_{start}$ solmusta solmuun $s$.
 
+\section{Visuaalinen odometria}
+Yksi mönkijöiden haasteellisimmista tehtävistä on jatkuvasti ylläpitää tietoa tämän omasta paikasta ja asennosta \cite{maimone2007two}. Suunnitteluvaiheessa tavoitteeksi asetettiin maksimissaan kymmenen porsentin virhemarginaali sadan metrin matkalla. Tehtävää varten niihin on sijoitettu inertian mittausyksikkö, joka yhdessä rengasodometrian kanssa pyrkii päättelemään kuinka pitkän matkan mönkijä on liikkunut ja missä asennossa se kullakin hetkellä on. Tämä menetelmä toimii hyvin tasaisella sekä hyvälaatuisella maastolla saavuttaen sille asetetun tavoitteen.
 
-\section{Visuaalinen paikannus}
+Ongelmaksi muodostuvat kuitenkin tilanteet, joissa maaston pito pienenee huomattavasti kuten esimerkiksi hiekka-aavikolla. Myös kraaterien kaltaiset kaltevat alueet tuottivat hankaluuksia inertian mittausyksikölle ylläpitää tietoa mönkijän paikasta. Näissä tilanteissa avuksi otetaan visuaalinen odometria, jossa kahdesta eri hetkenä otetusta 256x256 stereokuvaparista tunnistetaan ympäristön piirteitä ja pyritään havaittujen erojen avulla arvioimaan mönkijälle tarkemmat arvot tämän kuudelle vapausasteelle. Tämä ominaisuus kuitenkin hidastaa mönkijän liikkumista yhtä suuruusluokkaa pienemmäksi, joten se kytketään päälle ainoastaan tarvittaessa.
 
-% --- References ---
-%
-% bibtex is used to generate the bibliography. The babplain style
-% will generate numeric references (e.g. [1]) appropriate for theoretical
-% computer science. If you need alphanumeric references (e.g [Tur90]), use
-%
-% \bibliographystyle{babalpha-lf}
-%
-% instead.
+\subsection{Algoritmi}
+Tarkoituksena on siis löytää kuvaparista sellaiset piirteet, jotka on mahdollista löytää myös lyhyen matkan jälkeen otetusta uudesta kuvaparista. Tämä mahdollistaa melko tarkan arvion tekemisen siitä kuinka paljon kuvan ottaja on liikkunut kuvien ottamisen välillä ja liikkeen suunta saadaan myös selville. Algoritmin lähtökohtana on tilastollinen menetelmä nimeltä suurimman uskottavuuden estimointi. Ensimmäisen tämänkaltaista paikantunnistusmahdollisuutta tutki Larry Matthies vuonna 1986 ja samaan työhön perustuu myös Mars-mönkijöissä käytetty algoritmi \cite{matthies}.
+
+Menetelmä voidaan jakaa karkeasti neljään osaan, jotka suoritetaan esitellyssä järjestyksessä. Niissä sovelletaan niin digitaalista signaalinkäsittelyä kuin tilastollisia menetelmiä.
+
+\subsubsection{Piirteiden tunnistus}
+Ensimmäisessä vaiheessa tarkoitus on etsiä kuvaparista selkeitä piirteitä, joiden voidaan olettaa löytyvän maastosta liikkumisen jälkeen. Mönkijöiden tapauksessa on käytetty konenäön osalta tunnettua kulmien tunnistusta, jossa kuvien pikseleille annetaan kiintoisuusarvo ja korkeimman arvon saaneet valitaan kuvien kannalta kiinnostaviksi piirteiksi. On myös toivottavaa, että kiinnostavia piirteitä löytyy riittävän monta, jotta ne kattaisivat tarpeeksi ison alueen kuvasta. Tämä auttaa varmistamaan sen, että kuvapareista voidaan mahdollisimman suurella todennäköisyydellä tunnistaa samat kohteet.
+
+\subsubsection{Piirreperusteinen syvyyden estimointi stereokuvia käyttäen}
+Tämän vaiheen ymmärtämisen osalta oleellista on ensin perehtyä stereokuvaparin sovitukseen (eng. stereo matching). Useille orgaanisille olennoille ympäristön hahmottaminen perustuu laajalti syvyysnäön käyttöön ja aivot prosessoivat tätä dataa suhteellisen vaivattomasti, jotta voisimme reagoida asioihin oikealla tavalla LÄHDE. Konenäön kannalta tämä on kuitenkin muodostunut ongelmaksi ja sen ratkaisemiseksi on kehitelty menetelmiä kuten stereokuvaparin sovittaminen. Tarkoituksena on luoda kolmiulotteinen rekonstruktio useasta eri kuvasta, jotka on otettu samasta kohteesta, mutta eri kuvakulmista. Tämä toteutetaan siten, että kuvista pyritään löytämään samoja asioita kuvaavat pikselit ja laskemaan niiden etäisyys eri kuvien välillä, jolloin voidaan luoda syvyysarvioita perustuen kameroiden sijaintiin. Suotuisa lopputulos on tiheä syvyyskartta KUVA, jossa kuvien jokaiselle pikselille on arvioitu tarkka syvyysarvo kuvaamaan pikselin paikkaa kolmiulotteisessa avaruudessa.
+
+Toinen vaihe siis käyttää yllä esiteltyä menetelmää piirteiden sijainnin laskemiseen. Kameroiden hyvästä kalibroinnista johtuen sovittaminen tehdään epipolaarisella linjalla KUVA käyttäen muutaman pikselin kompensaatiopuskuria linjan ylä- ja alapuolella. Parhaan sovituksen saamiseksi kuvapariin sovelletaan Hans Moravecin väitöskirjassaan esittelemää LÄHDE pseudo-normalisoitua korrelaatiota, joka ottaa huomioon esimerkiksi vaihtuvat valaistusolosuhteet. Kolmiulotteinen malli luodaan, jotta voitaisiin varmistua myöhemmin otetun kuvaparin piirteiden vastaavan jo valittuja piirteitä. Lopuksi varsinainen sijainti saadaan tutkimalla niitä pisteitä, joissa molemmista kameroista lähtevät säteet leikkaavat yhdessä piirteiden kanssa. Erinäisistä tekijöistä johtuen säteet eivät silti välttämättä kohtaa ja niiden välistä etäisyyttä käytetään sovituksen hyvyysarvona, missä pienempi etäisyys kuvaa parempaa sovitusta.
+
+\subsubsection{Piirteiden seuraaminen}
+Mönkijän liikuttua noin 75 senttimetrin matkan otetaan toinen kuvapari, jonka kuvien päälle heijastetaan aikaisemmin valitut kiinnostavat piirteet rengasodometrian perusteella. Korrelaatiopohjaisella haulla samat piirteet etsitään uusista kaksiulotteisista kuvista. Nyt uudesta kuvaparista löydetyt halutut piirteet sijoitetaan kolmiulotteiseen malliin edellisen vaiheen tapaan, mutta tällä kertaa sovittaminen on huomattavasti nopeampaa, sillä piirteiden sijainti tiedetään jo edellisen kuvaparin perusteella. Mikäli joidenkin piirteiden sijainti ensimmäisessä kuvaparissa eroaa liikaa toisesta kuvaparista lasketusta sijainnista niin piirteitä ei käytetä enää tulevissa laskuissa.
+
+\subsubsection{Liikkeen luotettava arviointi}
+Mikäli rengasodometriasta saatu tieto liikutusta matkasta pitää paikkaansa niin molempien kuvaparien sovittamalla luodussa kolmiulotteisessa mallissa piirteiden sijainnit pysyvät ennaltamäärätyn virhemarginaalin sisällä eikä jatkotoimenpiteitä täten tarvita vaan mönkijä pystyy informaation avulla päivittämään sijaintinsa kartalla. 
+
+Visuaalisesta odometriasta on kuitenkin eniten hyötyä juuri silloin kun muilla tavoin ei voida saada luotettavaa sijainnista kertovaa tietoa. Tämä havaitaan siten, että tunnistettujen piirteiden sijainti eroaa mallissa odotetusta ja eron perusteella määritellään mönkijän todellinen liike kuvaparien ottamisen välissä.
+
+Prosessi on kaksivaiheinen, joista ensimmäisessä luodaan karkea arvio kuvaparien väliselle liikkeelle käyttäen pienimmän neliösumman menetelmää. Tähän löytyy nopea sekä luotettava suljetun muodon ratkaisu. Helpon laskettavuutensa, mutta hitaampia menetelmiä epätarkemman arvion vuoksi ensimmäisellä menetelmällä pyritään ainoastaan poistamaan poikkeavat havainnot, jolloin toinen vaihe voidaan suorittaa nopeammin. Jäljelle jäänyttä joukkoa käytetään toisessa vaiheessa tarkempaan arvioon kuljetun liikeradan laskemiselle. Epätoivotut piirteet poistetaan seuraavalla tavalla:
+
+\begin{enumerate}
+\item Valitaan satunnaisesti pieni määrä piirteitä ja lasketaan niiden avulla kuvaparien välinen liike soveltaen pienimmän neliösumman menetelmää.
+
+\item Kaikki aikaisemmissa vaiheissa löydetyt piirteet heijastetaan valittujen pisteiden kanssa samaan kuvaan käyttäen hyväksi ensimmäisessä kohdassa saatua arviota liikeradasta. Jokainen satunnaisesti valittu piirre, joka osuu riittävän lähelle tätä vastaavaa heijastetta saa yhden pisteen.
+
+\item Kahta ensimmäistä vaihetta iteroidaan haluttu määrä ja lopuksi valitaan se piirre, joka on saanut eniten pisteitä. Tätä kolmivaiheista algoritmia voidaan soveltaa kunnes saadaan tarvittava määrä piirteitä, jotka vastasivat karkeaa arviota kuljetusta liikeradasta.
+\end{enumerate}
+
+Nyt prosessi on valmis tekemään tarkan arvion käyttäen tilastotieteellistä menetelmää nimeltä suurimman uskottavuuden estimointi. Arvion tekeminen tapahtuu seuraavalla tavalla:
+
+KAAVA JA SELOSTUKSET
+
+\subsection{Algoritmin validointi Maan pinnalla}
+Ennen varsinaista käyttöönottoa visuaalista odometriaa kokeiltiin useilla erilaisilla alustoilla kuten esimerkiksi NASAn Jet Propulsion Laboratoryn Rocky 8 -mönkijällä. Kahdella vaarojen havaitsemiseen tarkoitetulla kameraparilla varustettuna laite muistuttaa Marsiin lähetettyjä Spiritiä sekä Opportunityä. Kokeiluun käytetty Johnson Valley tarjoaa mäkisen sekä hienon hiekan vuoksi liukkaan maaperän, jonka tarkoituksena on saada rengasodometria tuottamaan vääriä tuloksia, jolloin konenäön avulla tehdyn paikannuksen hyödyt tulevat esiin. Rockyn todellisen liikkeen sekä asennon mittaamiseen otettiin avuksi takymetri, jonka virhemarginaali pysyy alle kahdessa millimetrissä liikutulla matkalla sekä alle 0.2 asteessa asennon suhteen. Visuaalinen odometria mittasi mönkijän kulkeman matkan reilusti alle tavoitteeksi asetetun 10\% virhemarginaalin ja virhettä kertyi alle 1.5\%. Virhe asennon suhteen pysyi kaikissa testeissä alle viidessä asteessa.
+
+Lähemmäksi Mars-mönkijöiden todellista laitekokoonpanoa päästiin sisätiloissa ajetulla MER Surface System Testbed Lite -järjestelmällä. Ainoa merkittävä ero on lähinnä vaarojen havaitsemiseen tarkoitetussa kameraparissa, jonka kuvissa testimönkijän näkökenttä on 120 astetta verrattuna Mars-mönkijöiden 45 asteeseen. Laitteella ajettiin seitsemän kertaa 35 senttimetrin matka ja visuaalisen odometrian sekä rengasodometrian virheet kirjattiin ylös jokaisella pysähtymiskerralla. Koko matkan ajan konenäkö pystyi pitämään virhemarginaalin alle yhdessä prosentissa, kun taas renkaista saadut mittaukset vaihtelivat luotettavuudessaan, mutta matkan kasvaessa virhemarginaali pääasiassa kasvoi ja ylitti maksimiksi asetetun 10\% arvon.
+
+\subsection{Visuaalinen odometria Marsin pinnalla}
+Spirit ja Opportunity kuvaavat ympäristöään näiden mastoihin kiinnitetyillä NAVCAM-kamerapareilla ja kameroiden tuottamat kuvaparit annetaan visuaalisen odometrian käsiteltäväksi. Paras tulos saadaan kun liike tapahtuu kerrallaan enintään 75 senttimetrin askeleissa ja kuvien päällekkäisyys on vähintään 60 prosenttia. Liikkeen aikana rata saa kaareutua maksimissaan 18 astetta. Yhden askeleen vaatima laskenta-aika vaihtelee kahdesta kolmeen minuuttia visuaalisen odometrian ollessa käytössä.
+
+Marsin pinta asettaa toisinaan myös sellaisia haasteita, joissa tämä menetelmä ei tuota hyväksyttävää tulosta. Laajat hiekka-aavikot saattavat sisältää liian vähän konkreettisia piirteitä, jotta niitä olisi tarpeeksi algoritmia varten. Tämän lisäksi edellä mainittujen optimaalisten liikeratojen rikkominen tuotti algoritmille hankaluuksia. Vääriä, mutta mönkijän visuaalisen odometrian oikeaksi mieltämiä ratkaisuja syntyi kahden ajon aikana alkuperäisen konfiguraation takia, jossa kuvista löydettyjen piirteiden ei tarvinnut kattaa riittävän isoa aluetta. Muuttamalla vaadittavasta kattavuudesta kertovaa parametria ongelma korjattiin. Ainoa jatkuvaan tarkkailuun asetettu ongelmakohta ilmeni Opportunity 235:en päivän kohdalla, kun liian piirteetön maasto keskitti visuaalisen odometrian huomion mönkijän omaan varjoon. Tämä tuotti täysin virheellisen tuloksen arvioon kuljetusta matkasta ja tapahtuman jälkeen ohjaajien on täytynyt ottaa mönkijöiden varjot huomioon antaessaan niille käskyn nojautua visuaaliseen odometriaan liikkumisen aikana.
+
+Visuaalisen odometrian lisäämä autonomisen liikkumisen turvallisuus taas oli yksi selkeistä hyödyistä, joita mönkijöiden päivittäisessä operoinnissa havaittiin. Tämän lisäksi tarkempi liike mahdollisti kehittyneemmän kyvyn tehdä tieteellisiä havaintoja hankalassa maastossa esimerkiksi siten ettei ohjaajien tarvinnut varmistaa mönkijään kiinnitettyjen instrumenttien kohdentamista hitaasti välittyvän näköhavainnon perusteella.
+
+Marsissa viettämästään 394:stä vuorokaudesta Opportunity nojautui visuaaliseen odometriaan 75:nä päivänä. Ajopäiviä mönkijälle kertyi 172, joten algoritmia oli käytössä lähes joka toisena päivänä. Spiritin vastaavat luvut olivat 414 Marsin vuorokautta, joista ajopäiviä oli 184 ja visuaalista odometriaa käytettiin 52:na päivänä. Yhteensä kuvapareja analysoitiin tuona aikana 1 654 kappaletta, joista 1 418 pystyi arvioimaan mönkijän sijainnin sekä asennon riittävän tarkasti.
+
+Huolimatta yllä mainituista ongelmista visuaalinen odometria on yksi mönkijöiden tärkeimmistä työkaluista turvallisen ja itsenäisen liikkumisen toteuttamisessa Marsin pinnalla. Havaituista hyödyistä kertoo myös se, että algoritmi on käytössä vuonna 2011 Marsiin lähetetyssä Curiosity-mönkijässä LÄHDE.
 
 \bibliographystyle{alpha}
 \bibliography{references-fi}

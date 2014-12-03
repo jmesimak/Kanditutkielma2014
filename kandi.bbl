@@ -7,6 +7,12 @@ Yang Cheng, Mark Maimone, and Larry Matthies.
 \newblock In {\em Systems, Man and Cybernetics, 2005 IEEE International
   Conference on}, volume~1, pages 903--910. IEEE, 2005.
 
+\bibitem[CR09]{marsjuttuja}
+Joseph Carsten and Arturo Rankin.
+\newblock Global planning on the mars exploration rovers: Software integration
+  and surface testing.
+\newblock {\em Journal of Field Robotics}, 2009.
+
 \bibitem[FS07]{ferguson2007field}
 Dave Ferguson and Anthony Stentz.
 \newblock Field d*: An interpolation-based path planner and replanner.
@@ -24,10 +30,24 @@ Wenxian Hong.
 \newblock {\em A study of fast, robust stereo-matching algorithms}.
 \newblock PhD thesis, Massachusetts Institute of Technology, 2010.
 
+\bibitem[HV04]{harrington2004challenges}
+Brian~D Harrington and Chris Voorhees.
+\newblock The challenges of designing the rocker-bogie suspension for the mars
+  exploration rover.
+\newblock In {\em 37th Aerospace Mechanisms Symposium, May 19-21, 2004, Johnson
+  Space Center, Houston, Texas}. Pasadena, CA: Jet Propulsion Laboratory,
+  National Aeronautics and Space Administration, 2004, 2004.
+
 \bibitem[KL02]{koenig2002d}
 Sven Koenig and Maxim Likhachev.
 \newblock D* lite.
 \newblock In {\em AAAI/IAAI}, pages 476--483, 2002.
+
+\bibitem[LBH{\etalchar{+}}06]{lindemann2006mars}
+Randel~A Lindemann, Donald~B Bickler, Brian~D Harrington, Gary~M Ortiz, and
+  Christopher~J Voothees.
+\newblock Mars exploration rover mobility development.
+\newblock {\em Robotics \& Automation Magazine, IEEE}, 13(2):19--26, 2006.
 
 \bibitem[Mor80]{moravec1980obstacle}
 Hans~P Moravec.
@@ -39,6 +59,26 @@ Hans~P Moravec.
 Larry Matthies and Steven~A Shafer.
 \newblock Error modeling in stereo navigation.
 \newblock {\em Robotics and Automation, IEEE Journal of}, 3(3):239--248, 1987.
+
+\bibitem[NAS14a]{microscope}
+NASA.
+\newblock The microscopic imager, December 2014.
+
+\bibitem[NAS14b]{abra}
+NASA.
+\newblock Rock abrasion tool (rat), December 2014.
+
+\bibitem[NAS14c]{roverarm}
+NASA.
+\newblock The rover's "arm", December 2014.
+
+\bibitem[NAS14d]{cams}
+NASA.
+\newblock The rover's "eyes" and other "senses", December 2014.
+
+\bibitem[NAS14e]{spectrometers}
+NASA.
+\newblock Spacecraft: Surface operations: Instruments, December 2014.
 
 \bibitem[Ste95]{stentz1995focussed}
 Anthony Stentz.

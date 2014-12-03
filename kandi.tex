@@ -29,7 +29,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{microtype}
-\usepackage{amsfonts,amsmath,amssymb,amsthm,booktabs,color,enumitem,graphicx,listings}
+\usepackage{amsfonts,amsmath,amssymb,amsthm,booktabs,color,enumitem,graphicx,listings,float}
 \usepackage[pdftex,hidelinks]{hyperref}
 
 % Automatically set the PDF metadata fields
@@ -128,70 +128,145 @@
 
 \section{Johdanto}
 
-Ihmiskunta on ollut kiinnostunut avaruudesta ja erityisesti lähiplaneetoistaan jo antiikin ajoista asti. Tähtitieteen historiaan mahtuu useita merkkitäviä läpimurtoja kuten aurinkokeskeisen maailmankuvan ymmärtäminen ja vuoden 1969 Apollo-ohjelman miehitetty lento Kuuhun. Intressit avaruuden tutkimiselle kasvavat jatkuvasti ja viimevuosina myös kaupalliset tahot ovat luoneet työllisyyttä esimerkiksi avaruusturismin avulla. Jotkin yritykset tutkailevat jo mahdollisuuksia kaivaa kallisarvoisia mineraaleja planeettaamme kiertävistä asteroideista. Kaikki tämä vaatii useiden eri tieteenalojen yhteistyötä, jotta teknologiat kehittyisivät vastaamaan avaruuden asettamia haasteita.
+Ihmiskunta on ollut kiinnostunut avaruudesta ja erityisesti lähiplaneetoistaan jo useita satoja vuosia. Tähtitieteen historiaan mahtuu monia merkittäviä läpimurtoja kuten aurinkokeskeisen maailmankuvan ymmärtäminen ja vuoden 1969 Apollo-ohjelman miehitetty lento Kuuhun. Intressit avaruuden tutkimiselle kasvavat jatkuvasti ja viimevuosina myös kaupalliset tahot ovat luoneet työllisyyttä esimerkiksi avaruusturismin avulla. Jotkin yritykset tutkailevat jo mahdollisuuksia kaivaa kallisarvoisia mineraaleja planeettaamme kiertävistä asteroideista. Kaikki tämä vaatii useiden eri tieteenalojen yhteistyötä, jotta teknologiat kehittyisivät vastaamaan avaruuden asettamiin haasteisiin.
 
-Viimeisten vuosikymmenten aikana keskeisiksi tutkimusvälineiksi aurinkokuntamme kartoittamisessa ovat muodostuneet miehittämättömät avaruusluotaimet, joiden avulla tiedemiehet ovat keränneet huomattavia määriä kiinnostavaa dataa Maan naapureista. Tänä päivänä luotaimia löytyy jo useimpien planeettojen kiertoradoilta, Venuksen ja Marsin pinnoilta sekä tuoreimpien arvioiden mukaan Aurinkokunnan ulkopuolelta.
+Viimeisten vuosikymmenten aikana keskeisiksi tutkimusvälineiksi aurinkokuntamme kartoittamisessa ovat muodostuneet miehittämättömät avaruusluotaimet, joiden avulla tiedemiehet ovat keränneet huomattavia määriä kiinnostavaa dataa Maan naapureista. Tänä päivänä luotaimia löytyy jo useimpien planeettojen kiertoradoilta, Venuksen ja Marsin pinnoilta sekä tuoreimpien arvioiden mukaan myös Aurinkokunnan ulkopuolelta.
 
-Kosmisessa mittakaavassa etäisyydet ovat aivan omaa luokkaansa ja tästä syystä luotainten ohjaaminen Maasta käsin on useimmissa tapauksissa hidasta. Asiaa hankaloittaa myös se ettei reaaliaikaisen kuvan saaminen ole mahdollista vaikka radioaallot kulkevat valonnopeudella halki avaruuden. Tästä johtuen tiedemiehet ovat pyrkineet automatisoimaan erilaisin algoritmein luotaintensa toimintaa. Tekoälyä taas käytetään, jotta laite kykenisi suorittamaan sille annetut tehtävät mahdollisimman itsenäisesti. Esimerkiksi Mars-mönkijät pyrkivät väistelemään maastosta löytyviä vaaroja kuvaamalla omaa ympäristöään ja analysoimalla sen perusteella itselleen suotuisimpia reittejä.
+Kosmisessa mittakaavassa etäisyydet ovat aivan omaa luokkaansa ja tästä syystä luotainten ohjaaminen Maasta käsin on useimmissa tapauksissa hidasta. Asiaa hankaloittaa myös se ettei reaaliaikaisen kuvan saaminen ole mahdollista vaikka radioaallot kulkevat valonnopeudella halki avaruuden. Tästä johtuen tiedemiehet ovat pyrkineet automatisoimaan erilaisin algoritmein luotaintensa toimintaa. Tekoälyä taas käytetään, jotta laite kykenisi suorittamaan sille annetut tehtävät mahdollisimman itsenäisesti. Esimerkiksi Mars-mönkijät pyrkivät väistelemään maastosta löytyviä vaaroja kuvaamalla omaa ympäristöään ja generoimaan kuvien perusteella itselleen suotuisia reittejä.
 
 Uusimpien mönkijöiden kohdalla on jo mahdollista päivittää näiden ohjelmistoa vaikka ne sijaitsisivat toisella planeetalla. Siksi onkin oleellista jatkaa niissä käytettyjen ohjelmistojen kehittämistä vielä laukaisun jälkeen, jolloin laitteistojen potentiaalinen hyöty kasvaa ja tarve uusien laitteiden lähettämiselle avaruuteen pienenee.
 
 \section{MER eli Mars Exploration Rover}
-Marsiin lähetettiin vuonna 2003 Nasan toimesta kaksi MER-laitetta (Mars Explorarion Rover, myöhemmin mönkijä) – Spirit sekä Rover – etsimään merkkejä veden esiintymisestä planeetan pinnalta. Yksi ongelmista on mönkijöiden liikuttelu maasta käsin 26 minuuttia kestävän signaalin siirtymisestä aiheutuvan viiveen takia. Tyypillisesti laitteille lähetetään komentoja vain aamuisin kerran Marsin vuorokaudessa (myöhemmin kierto), jotka ne toteuttavat kierron aikana. Ennen iltaa niiden keräämä data taas lähetetään Maahan analysoitavaksi. Tästä johtuen mönkijöiden riittävä autonomia on kriittistä, jotta ne kykenisivät liikkumaan mahdollisimman nopeasti tieteellisesti kiinnostavien kohteiden välillä.
+Marsiin lähetettiin vuonna 2003 Nasan toimesta kaksi MER-laitetta (Mars Explorarion Rover, myöhemmin mönkijä) – Spirit sekä Opportunity – etsimään merkkejä veden esiintymisestä planeetan pinnalta. Yksi ongelmista on mönkijöiden liikuttelu maasta käsin 26 minuuttia kestävän signaalin siirtymisestä aiheutuvan viiveen takia. Tyypillisesti laitteille lähetetään komentoja vain aamuisin kerran Marsin vuorokaudessa (myöhemmin kierto), jotka ne toteuttavat kierron aikana. Ennen iltaa niiden keräämä data taas lähetetään Maahan analysoitavaksi. Tästä johtuen mönkijöiden riittävä autonomia on kriittistä, jotta ne kykenisivät liikkumaan mahdollisimman nopeasti tieteellisesti kiinnostavien kohteiden välillä.
 
-Mönkijöitä voidaan liikuttaa kahdella eri tavalla: sokkoajona, jossa Maahan saapuneista kuvista päätellään mihin suuntaan on turvallista ajaa ja ajaminen suoritetaan vaaroista välittämättä haluttuun kohteeseen. Toinen vaihtoehto on luovuttaa vastuu ajamisesta mönkijöissä sijaitsevalle AutoNav-järjestelmälle, joka pyrkii liikkumaan haluttuun kohteeseen ottaen kuitenkin huomioon ympäristössä sijaitsevat vaarat ja väistämään niitä. Useimmiten näitä käytetään yhdessä siten, että sokkoajoa sovelletaan niin pitkälle kuin saaduista kuvista päätellen on turvallista ja tämän jälkeen AutoNav jatkaa ajamista.
+Mönkijöitä voidaan liikuttaa kahdella eri tavalla: sokkoajona, jossa Maahan saapuneista kuvista päätellään mihin suuntaan on turvallista ajaa ja ajaminen suoritetaan vaaroista välittämättä haluttuun kohteeseen. Toinen vaihtoehto on luovuttaa vastuu ajamisesta mönkijöissä sijaitsevalle AutoNav-järjestelmälle, joka pyrkii liikkumaan haluttuun kohteeseen ottaen kuitenkin huomioon ympäristössä sijaitsevat vaarat ja väistämään niitä \cite{marsjuttuja}. Useimmiten näitä käytetään yhdessä siten, että sokkoajoa sovelletaan niin pitkälle kuin saaduista kuvista päätellen on turvallista ja tämän jälkeen AutoNav jatkaa ajamista.
 
-Toisinaan automaatio ei toimi ja tämä estää mönkijöitä saavuttamasta kohteitaan. Heinäkuussa 2006 molemmat saivat järjestelmäpäivityksen mukana korjauksia em. ongelmaan, joita tämä essee pääasiassa käsittelee.
-\subsection{Mönkijöille asetetut tavoitteet}
+Ohjelmistopäivitysten lähettäminen toisella planeetalle sijaitseville mönkijöille oli myös ensimmäistä kertaa mahdollista Spiritin ja Opportunityn laskeuduttua onnistuneesti Marsin pinnalle. Tämän ansiosta viimeisen 11 vuoden aikana mönkijät ovatkin saaneet käyttöönsä esimerkiksi globaalin reitinsuunnittelun ja toistaiseksi tehtäväänsä jatkavaa Opportunityä on edelleen mahdollista päivittää uusilla ominaisuuksilla.
+
+\subsection{Mönkijöitä koskevan tehtävän pääasialliset tavoitteet}
+Kokonaisuudessaan tehtävä käsittää seitsemän selkeää tavoitetta, joiden saavuttamiseksi mönkijöitä tarvittiin:
+\begin{enumerate}
+	\item Erilaisten kivien ja maa-ainesten etsintä, jotka osoittavat merkkejä veden esiintymisestä.
+	\item Mönkijöiden laskeutumisalueita ympäröivän maaperän analysointi.
+	\item Erilaisten planeettaa muovanneiden geologisten prosessien tunnistaminen, kuten eroosio ja vulkaanisuus.
+	\item Kiertoradalta tehtyjen havaintojen paikkaansapitävyyden tarkistaminen.
+	\item Rautapitoisten mineraalien etsiminen ja vettä pitävien tai vedessä muodostuneiden ainesten suhteellisen määrän mittaaminen.
+	\item Maaperän mineraloginen havainnointi ja sellaisten tietojen kerääminen, joiden perusteella voidaan päätellä kiven sekä maa-aineksen synnyttäneet prosessit.
+	\item Geologisten vihjeiden etsintä, jotka kertovat planeetan ympäristöolosuhteista ajalta jolloin pinnalla vielä oli vettä sekä arvion tekeminen siitä olivatko ne suotuisia elämän synnylle.
+\end{enumerate}
+
 \subsection{Laitteisto}
+
+\subsubsection{Vaatimukset}
+Mönkijöitä koskee joukko liikkeestä vastaavalle laitteistolle asetettuja vähimmäisvaatimuksia: Tarve ylittää 25cm korkuiset esteet, matkata ainakin yksi kilometri laskeutumispaikalta vaihtelevassa maastossa, sietää lämpötilavaihteluja -100C:sta 20C:een ja säilyä toimintakykyisenä 90 Marsin vuorokautta. \cite{lindemann2006mars}
+
+\subsubsection{Fyysiset ominaisuudet}
+Mönkijöiden pohja on noin 140cm pitkä ja 120cm leveä. Maksimileveys aurinkopaneelien kohdalla on 230cm ja pituus 150cm. Korkeutta molemmilla on enimmillään 150cm, josta 30cm on maavaraa. Täysin varusteltunta yksi mönkijä painaa 176.5 kg.
+
+Liikkuminen tapahtuu kuudella renkaalla, joista neljää voidaan kääntää toisistaan riippumatta, joka mahdollistaa esimerkiksi kääntymisen paikallaan. Jokaista rengasta voidaan myös pyörittää muista riippumatta ja niiden pinta on nappulakenkämäisillä napeilla pidon lisäämiseksi. Mönkijöissä on kuvan esittämä rocker-bogie jousitus \cite{harrington2004challenges}, jonka avulla liike vaihtelevassa ja erityisesti kaltevassa maastossa helpottuu. Laitteiden saavuttama huippunopeus on 4.6 cm/s tasaisella kovalla maastolla.
+
+Laitteiston osalta haasteita suunnittelun osalta aiheutti se ettei Marsissa ole ennen Spiritiä ja Opportunityä käynyt muita mönkijöitä kuin vuonna 1997 sinne lähetetty Sojourner, jonka matka kesti hieman alle kolme kuukautta. Tutkijoiden tuli siis pääasiassa luottaa Maan pinnalla tehtyihin kokeiluihin, joissa yritettiin simuloida mahdollisimman tarkasti Marsin olosuhteita. \cite{lindemann2006mars}
+
+\begin{figure}[H]
+	\caption{Rocker-bogie jousituksella varustettu mönkijä tilanteessa, jossa etu- ja takarenkaat ovat kaltevilla pinnoilla.}
+	\centering
+		\includegraphics[width=0.6\textwidth]{rbogie}
+\end{figure}
+
+\subsubsection{Käsivarsi}
+Erinäisten tieteellisten instrumenttien liikuttelua varten mönkijöihin on sijoitettu kolminivelinen ihmisen käsivartta mukaileva titaaninen käsivarsi (instrument deployment device, IDD).\cite{roverarm}
+
+\subsubsection{Kamerat}
+\paragraph{Panoraamakamera (Pancam)}\mbox{} \\
+Mönkijän mastoon on kiinnitetty kaksi CCD-kennolla varustettua kameraa, jotka yhdessä muodostavat panoraamakameran. Kameraa voidaan kääntää 360 astetta pystyakselilla sekä 180 astetta horisontaalisella akselilla, jolloin mönkijä kykenee muodostamaan parhaimmillaan 96 miljoonan pikselin panoraamakuvia omasta ympäristöstään. Tarkkuudella pyritään jäljittelemään ihmisen näkökykyä. Panoraamakamera kykenee myös päivittämään Auringon sijainnin perusteella oman suuntansa.\cite{cams}
+
+\paragraph{Vaarakamera (Hazcam)}\mbox{} \\
+Vaarakamera koostuu panoramakameran tavoin kahdesta erillisestä yksiköstä, jotka yhdessä auttavat mönkijää luomaan kolmiulotteista mallia tämän ympäröimästä maastosta. Vaarakameroita on kaksi ja ne on sijoitettu mönkijän alaosiin etu- ja takapuolelle. Niiden tehtävänä on erityisesti kuvata maata, jotta vaaralliset esteet voitaisiin kiertää turvallisesti.\cite{cams}
+
+\paragraph{Navigointikamera (Navcam)}\mbox{} \\
+Visuaalisessa odometriassa käytettävä kuvamateriaali tulee pääosin kahdesta kamerasta koostuvasta stereokuvapareja ottavasta navigointikamerasta. Se on kiinnitetty panoraamakameran kanssa samaan mastoon.\cite{cams}
+
+\paragraph{Mikroskooppikamera}\mbox{} \\
+Käsivarresta löytyvä mikroskooppi toimii yhdessä CCD-kennollisen kameran kanssa ja sillä pyritään analysoimaan erityisesti merkkejä veden aikaisemmasta esiintymisestä maaperässä.\cite{microscope}
+
+\begin{figure}[H]
+	\caption{Kamerat havainnollistettuna \cite{cams}}
+	\centering
+		\includegraphics[width=1.0\textwidth]{cams}
+\end{figure}
+
+\subsubsection{Spektrometrit}
+Molemmissa mönkijöissä on kolme spektrometriä, joiden tarkoituksena on tehdä havaintoja laitteiden ympäristöstä esimerkiksi mittaamalla maa-aineksista lähteviä termisiä emissioita ja analysoimalla ympäristöön kohdistettujen röntgensäteiden sekä alfahiukkasten käyttäytymistä.\cite{spectrometers}
+
+\subsubsection{Kivihierrin (Rock Abrasion Tool, RAT)}
+Marsin pinnalla sijaitsevat kivet ovat pölyn peitossa ja niiden läpikotaista tutkimista varten käsivarteen on kiinnitetty hierrin, jonka tehtävänä on tehdä kiven pintaan noin 45 millimetrin syvyinen kuoppa. Paljastunut kiviaines saattaa olla pintaan verrattuna hyvinkin erilainen ja sitä analysoimalla voidaan tehdä päätelmiä kiven syntyperästä sekä syntymisen aikana vallinneesta ilmastosta.\cite{abra}
+
 \subsection{AutoNav}
 AutoNav perustuu GESTALT-algoritmiin (grid-based estimation of surface traversability applied to local terrain), jossa mönkijän stereokameroiden ottamista kuvista luodaan malli tämän välittömästä ympäristöstä. Yksi osa mallista on ruudukkopohjainen hyvyyskartta. Kartalla jokainen solu saa sen ajettavuutta kuvaava hyvyysarvon. Hankala maasto tuottaa matalan arvon ja helppo maasto korkean. Maastoa, jota mönkijä ei voi läpäistä levitetään kartalla mönkijän koon verran, jolloin laite voidaan sijoittaa pisteeksi kartalle laskentaa varten.
 
 Kartoituksen jälkeen järjestelmä luo joukon kaaria, joita pitkin kulkemalla voidaan saavuttaa haluttu kohde. Mikäli kaari ei ole suora niin sille lasketaan myös kääntymispisteet. Jokaista kaarta arvioidaan kolmella kriteerillä: vaarojen välttely, kääntymisajan minimointi ja kohteen saavuttaminen. Arvion perusteella sovellus järjestää kaarien välille äänestyksen siten, että hyvyyskartalla turvallisille kaarille annetaan enemmän ääniä kuin turvattomille, kääntymispisteiden lukumäärä korreloi negatiivisesti annettujen äänien kanssa ja mönkijää lähemmäksi kohti kohdetta vievät kaaret saavat enemmän ääniä. Äänet lasketaan tämän jälkeen yhteen ja mönkijä ajaa pienen ennalta määrätyn matkan voittanutta kaarta. Edellä selitettyä prosessia toistetaan kunnes kohde saavutetaan, ennalta määrätty tavoiteaika ylittyy tai tapahtuu virhe.
 
-Ongelmaksi MER-laitteiden järjestelmän ensimmäisessä versiossa muodostui tilanne, jossa mönkijä kohtasi riittävän ison kiviröykkiön. Sen kiertämiseksi olisi jouduttu valitsemaan sellainen kaari, joka ei vie mönkijää riittävän suoraan kohti kohdetta. Suoremmat kaaret taas kulkivat kivien yli. Tilanne aiheutti äänestysvaiheessa konfliktin, jossa vaaran välttäminen oli liian suuressa konfliktissa suorimman reitin haun kanssa. Järjestelmä ei antanut mönkijän liikkua mihinkään suuntaan.
+Ongelmaksi MER-laitteiden AutoNav-järjestelmän ensimmäisessä versiossa muodostui tilanne, jossa mönkijä kohtasi riittävän ison kiviröykkiön. Sen kiertämiseksi olisi jouduttu valitsemaan sellainen kaari, joka ei vie mönkijää riittävän suoraan kohti kohdetta. Suoremmat kaaret taas kulkivat kivien yli. Tilanne aiheutti äänestysvaiheessa konfliktin, jossa vaaran välttäminen oli liian suuressa konfliktissa suorimman reitin haun kanssa. Järjestelmä ei antanut mönkijän liikkua mihinkään suuntaan.
 
-\subsection{GESTALT ennen globaalia reitinsuunnittelua}
-\subsection{Päivitetty GESTALT}
-% Write some science here.
+Ratkaisuksi valittiin globaalin reitinhaun tuominen osaksi AutoNav-järjestelmää. Yhdistettynä paikalliseen reitinhakuun eli GESTALT:in kanssa pystytään välttämään niin lähellä sijaitsevat vaaralliset objektit kuin tekemään tarpeellisia havaintoja maastosta, jotta isot esteet voidaan kiertää mahdollisimman tehokkaasti. Globaalin reitinhaun ytimessä toimii algoritmi nimeltä Field D*, joka on vartavasten kehitetty mönkijöiden tarpeisiin.\cite{marsjuttuja}
+
 \section{Field D* ja lineaarinen interpolointi}
 
 \subsection{Aikaisemmat algoritmit}
-Useimmissa mobiilirobotiikan navigaatiosovelluksissa ympäristöä mallinnetaan ruudukkona, jossa jokainen ruutu saa arvokseen jonkin arvion sen kuljettavuudesta. Tällä tavoin robotti voi tarvittaessa väistää ympäristössään sijaitsevia esteitä tai liian vaaralliseksi koettuja alueita. Ruudukon lisäksi yleisesti käytetyt algoritmit generoivat myös verkon, jonka solmut sijoitetaan keskelle jokaista ruutua. Verkon kaaret muodostetaan ruudussa sijaitsevan solmun ja tämän naapuriruutuihin asetettujen solmujen välille. Tässä mallissa reitinhaku verkossa voidaan toteuttaa esimerkiksi Anthony Stentzin vuonna 1995 esittelemän D*-algoritmin avulla \cite{stentz1995focussed}. Pääasialliseksi ongelmaksi jää kuitenkin em. kyky löytyää vain sellaiset reitit, joissa robotti liikkuu $\pi/4$ käännöksillä ruutujen välillä.
+Useimmissa mobiilirobotiikan navigaatiosovelluksissa ympäristöä mallinnetaan ruudukkona, jossa jokainen ruutu saa arvokseen jonkin arvion sen kuljettavuudesta. Tällä tavoin robotti voi tarvittaessa väistää ympäristössään sijaitsevia esteitä tai liian vaaralliseksi koettuja alueita. Ruudukon lisäksi yleisesti käytetyt algoritmit generoivat myös verkon, jonka solmut sijoitetaan keskelle jokaista ruutua. Verkon kaaret muodostetaan ruudussa sijaitsevan solmun ja tämän naapuriruutuihin asetettujen solmujen välille. Tässä mallissa reitinhaku verkossa voidaan toteuttaa esimerkiksi Anthony Stentzin vuonna 1995 esittelemän D*-algoritmin avulla \cite{stentz1995focussed}. Pääasialliseksi ongelmaksi jää kuitenkin em. kyky löytää vain sellaiset reitit, joissa robotti liikkuu $\pi/4$:n käännöksillä ruutujen välillä.
+
+\begin{figure}[H]
+	\caption{Esimerkki 45 asteen käännöksiin rajoittuneesta ruudukosta. \cite{marsjuttuja}}
+	\centering
+		\includegraphics[width=0.3\textwidth]{old_grid}
+\end{figure}
 
 \subsection{Kustannusarvion parantaminen interpoloinnin avulla}
 Algoritmin perustana toimii metodi, jossa jokaisesta ruudukossa sijaitsevasta solmusta lasketaan halvin mahdollinen kustannusarvio haluttuun kohdepisteeseen \cite{ferguson2007field}. Perinteisesti ruudukkopohjaisessa reitinsuunnittelussa on käytetty seuraavaa kaavaa:
 
-\[g(s) = \min_{s'\in nbrs(s)} (c(s, s') +g(s')),\]
-missä \(nbrs(s)\) on joukko kaikista solmun \(s\) naapureista, \(c(s,s')\) on kustannus kulkemiseen kaaren \(s\) ja \(s'\) välillä, sekä \(g(s')\) on kustannusarvio solmulle \(s'\).
+\begin{equation}
+	g(s) = \min_{s'\in nbrs(s)} (c(s, s') +g(s')),
+\end{equation}
+missä \(nbrs(s)\) on joukko kaikista solmun \(s\) naapureista, \(c(s,s')\) on kustannus kulkemiselle kaarten \(s\) ja \(s'\) välillä, sekä \(g(s')\) kustannusarvio solmulle \(s'\).
 
-Kaavassa oletetaan, että solmusta \(s\) voidaan siirtyä tämän naapureihin ainoastaan suoraa linjaa pitkin, joka taas johtaa aikaisemmin mainittuun ongelmaan muodostaa parhaita mahdollisia reittejä robotin rajoittuneen suuntaamisen takia. Tämä voitaisiin korjata sijoittamalla \(s'\):n tilalle \(s_b,\) jossa \(s_b\) on mikä tahansa piste solmuun liittyvän ruudun reunalla. Näitä pisteitä on kuitenkin ääretön määrä, joka tekee jokaisen pisteen laskennasta mahdotonta.
+Kaavassa 1 oletetaan, että solmusta \(s\) voidaan siirtyä tämän naapureihin ainoastaan suoraa linjaa pitkin, joka taas johtaa luvussa 3.1 mainittuun ongelmaan muodostaa parhaita mahdollisia reittejä robotin rajoittuneen suuntaamisen takia. Tämä voitaisiin korjata sijoittamalla \(s'\):n tilalle \(s_b,\) jossa \(s_b\) on mikä tahansa piste solmuun liittyvän ruudun reunalla. Näitä pisteitä on kuitenkin ääretön määrä, joka tekee jokaisen pisteen laskennasta mahdotonta.
 
 Muokkaamalla verkkoa voimme silti muodostaa approksimaation jokaiselle pisteelle \(s_b\) käyttäen lineaarista interpolointia. Sen sijaan, että solmu sijoitettaisiin ruudun keskelle, asetetaan solmu jokaisen ruudun kulmaan ja täten kaaret kulkevat ruudukon reunoja pitkin. Nyt yhden kaaren kustannus voidaan valita siten, että se on pienempi niistä kahdesta ruudusta joiden välillä se kulkee.
 
-Tämä muokkaus johtaa siihen, että paras mahdollinen reitti kulkee jotkin kaksi naapurisolmua $\overrightarrow{s_1s_2}$ yhdistävän kaaren läpi. Solmulle \(s\) voidaan nyt laskea kustannusarvio, kun reitti kulkee sen ruudun läpi em. kaarelle. Laskemista varten tarvitaan arviot solmujen \(s1\) ja \(s2\) sekä keskimmäisen ruudun \(c\) ja alemman ruudun \(b\) kustannuksista.
+\begin{figure}[H]
+	\caption{Kustannus pisteeseen $s'$ on mahdollista arvioida lineaarista interpolointia hyväksi käyttäen. \cite{marsjuttuja}}
+	\centering
+		\includegraphics[width=0.3\textwidth]{new_grid}
+\end{figure}
+Tämä muokkaus johtaa siihen, että paras mahdollinen reitti saattaa kulkea jotkin kaksi naapurisolmua $\overrightarrow{s_1s_2}$ yhdistävän kaaren läpi (Kuva 2). Solmulle \(s\) voidaan nyt laskea kustannusarvio, kun reitti kulkee sen ruudun läpi em. kaarelle. Laskemista varten tarvitaan arviot solmujen \(s_1\) ja \(s_2\) sekä keskimmäisen ruudun \(c\) ja alemman ruudun \(b\) kustannuksista.
 
-Kustannusarvion tuottamiseen käytetään vielä oletusta, että kustannusarvio mille tahansa pisteelle \(s_y\), joka sijaitsee kaarella $\overrightarrow{s_1s_2}$, on funktioiden \(g(s1)\) ja \(g(s2)\) lineaarikombinaatio:
+Kustannusarvion tuottamiseen käytetään vielä oletusta, että kustannusarvio mille tahansa pisteelle \(s_y\), joka sijaitsee kaarella $\overrightarrow{s_1s_2}$, on funktioiden \(g(s_1)\) ja \(g(s_2)\) lineaarikombinaatio:
 
-\[g(s_y) = yg(s_2)+(1-y)g(s_1),\]
-missä \(y\) on etäisyys \(s_1\):stä \(s_y\):hyn. Tulee kuitenkin huomata, että \(s_y\) ei välttämättä ole em. funktioiden lineaarikombinaatio, mutta tämän oletuksen tuottama approksimaatio toimii käytännässö riittävän hyvin kun halutaan muodostaa suljettu muoto solmun \(s\) kustannusarvion palauttavalle funktiolle.
+\begin{equation}
+	g(s_y) = yg(s_2)+(1-y)g(s_1),
+\end{equation}
+missä \(y\) on etäisyys \(s_1\):stä \(s_y\):hyn. Tulee kuitenkin huomata, että \(s_y\) ei välttämättä ole em. funktioiden lineaarikombinaatio, mutta tämän oletuksen tuottama approksimaatio toimii käytännössä riittävän hyvin kun halutaan muodostaa suljettu muoto solmun \(s\) kustannusarvion palauttavalle funktiolle.
 
-Approksimaation perusteella solmun \(s\) kustannus kun tiedetään \(s1\), \(s2\), ruutukustannukset \(c\) ja \(b\) voidaan laskea seuraavasti:
+Kun tiedetään \(s_1\), \(s_2\), ruutukustannukset \(c\) ja \(b\) niin approksimaation perusteella solmun \(s\) kustannus voidaan laskea seuraavasti:
 
-\[\min_{x,y}[bx+c\sqrt{(1-x)^2+y^2}+g(s_2)y+g(s_1)(1-y)],\]
+\begin{equation}
+	\min_{x,y}[bx+c\sqrt{(1-x)^2+y^2}+g(s_2)y+g(s_1)(1-y)],
+\end{equation}
 missä $x \in [0,1]$ on solmusta $s$ alareunaa pitkin kuljettu matka kunnes käännytään ruudun yli kohti oikeaa reunaa pisteeseen, joka on $y \in [0,1]$ etäisyyden päässä solmusta $s_1$.
 
 Tehdään vielä oletus, että \((x^*, y^*)\) ovat \(x\):n ja \(y\):n arvot, joilla ylläoleva kaava saadaan ratkaistua. Lineaarisen interpoloinnin johdosta toinen arvoista on joko yksi tai nolla. Mikäli kustannus liikkua ruudun \(c\) yli on pienempi kuin ruudun reunoja pitkin kulkeminen niin halvin reitti halkaisee ruudun \(c\) ja täten joko \(x^* = 0\) tai \(y^* = 1\). Jos taas polku ei halkaise ruutua \(c\) niin \(y^* = 0\). Täten polku on kulkee solmusta \(s\) suoraan alareunaa pitkin kohtia solmua \(s1\), siirtyy jonkin matkan \(x\) alareunalla ja leikkaa tämän jälkeen ruudun halki suoraan solmuun \(s2\), tai halkaisee ruudun \(c\) kulkemalla suoraan solmusta \(s\) johonkin oikean reunan pisteeseen \(s_y\). Halvin polku riippuu \(c\):n ja \(b\):n koosta, sekä \(s_1\):n ja \(s_2\):n kustannuserosta \(f = g(s_1) - g(s_2)\). Mikäli \(f < 0\) niin paras mahdollinen polku on 1. tapaus, jos taas \(f = b\) niin polun kustannus kulkien jonkin matkan alareunaa on yhtäpitävä sen kanssa, että alareunaa ei kuljeta ollenkaan. Jälkimmäisestä polusta voidaan ratkaista kustannuksen minimoiva \(y\) seuraavasti.
 
-Olkoon $k = f = b$. Kustannus solmusta $s$ kaaren $\overrightarrow{s_1s_2}$ lävitse on
+Olkoon $k = f = b$. Kustannus $\delta(s, \overrightarrow{s_1s_2})$ solmusta $s$ kaaren $\overrightarrow{s_1s_2}$ lävitse on
 
-\[c\sqrt{1+y^2}+k(1-y)+g(s2).\]
-Jossa kustannuksen derivaatasta suhteessa \(y\):hyn ja asettamalla se nollaksi saadaan
+\begin{equation}
+	c\sqrt{1+y^2}+k(1-y)+g(s2).
+\end{equation}
+Kustannuksen derivaatasta suhteessa \(y\):hyn ja asettamalla se nollaksi saadaan
 \[y^* = \sqrt{\frac{k^2}{(c^2-k^2)}}\]
 
 Lopputulos on sama huolimatta siitä kuljetaanko alareunaa pitkin, joten merkitseväksi tekijäksi jää se kumpaa reunaa kulkeminen tulee halvemmaksi. Mikäli \(f < b\) niin käytetään oikeaa reunaa ja lasketaan polun kustannus arvolla \(k = f\). Jos taas \(b < f\) niin käytetään alareunaa jolloin \(k = b\) ja \(y^* = 1 - x^*\). Täten algoritmi halvimman polun laskemiseen solmusta \(s\) mihin tahansa pisteeseen kaarelle, joka sijaitsee vierekkäisten naapurien \(s_a\) ja \(s_b\) välissä laskemiseen on seuraava:
 
-\lstset{basicstyle=\tiny, tabsize=4}
+\lstset{basicstyle=\footnotesize, tabsize=4}
 \begin{lstlisting}[mathescape=true]
 ComputeCost($s,s_a,s_b$)
 	if ($s_a$ on solmun $s$ diagonaalinaapuri)
@@ -226,9 +301,9 @@ ComputeCost($s,s_a,s_b$)
 \end{lstlisting}
 
 \subsection{Field D*}
-Seuraava algoritmi on optimoimaton esimerkki Field D*:in toteutuksesta \cite{ferguson2007field}, joka pohjautuu aikaisempaan D* Lite-algoritmiin \cite{koenig2002d}. Sen tarkoituksena on koota ylempänä esitellyn interpoloinnin avulla lasketut kustannukset yhteen ja muodostaa edullisin reitti kahden pisteen välillä. Algoritmi on toteutettu siten, että se ottaa huomioon muutokset ympäristössä, joita voi syntyä esimerkiksi sään muuttumisen seurauksena.
+Algoritmi on optimoimaton esimerkki Field D*:in toteutuksesta \cite{ferguson2007field}, joka pohjautuu aikaisempaan D* Lite-algoritmiin \cite{koenig2002d}. Sen tarkoituksena on koota ylempänä esitellyn interpoloinnin avulla lasketut kustannukset yhteen ja muodostaa edullisin reitti kahden pisteen välillä. Algoritmi on toteutettu siten, että se ottaa huomioon muutokset ympäristössä, joita voi syntyä esimerkiksi sään muuttumisen seurauksena.
 
-\lstset{basicstyle=\tiny, tabsize=4}
+\lstset{basicstyle=\footnotesize, tabsize=4}
 \begin{lstlisting}[mathescape=true]
 key($s$)
 	return $[\min(g(s), rhs(s)) + h(s_start, s); min(g(s), rhs(s))]$;
@@ -267,12 +342,12 @@ Main()
 
 \end{lstlisting}
 
-Pseudokoodissa $connbrs(s)$ on joukko solmun $s$ perättäisiä naapuripareja: ${(s_1,s_2), (s_2,s_3), (s_3,s_4),(s_4,s_5),(s_5,s_6),(s_6,s_7),(s_7,s_8),(s_8,s_1)}$. $g(s)$ on solmun s kustannusarvio, $rhs(s)$ kertoo arvion solmun $s$ kustannuksesta yhden askeleen päästä, $OPEN$ toimii prioriteettijonona nousevassa järjestyksessä solmuille, joille $g(s) \neq rhs(s)$. $h(s_{start}, s)$ on heuristinen arvio kustannuksesta $s_{start}$ solmusta solmuun $s$.
+Pseudokoodissa $connbrs(s)$ on joukko solmun $s$ perättäisiä naapuripareja: ${(s_1,s_2), (s_2,s_3), (s_3,s_4),(s_4,s_5),(s_5,s_6),(s_6,s_7),(s_7,s_8),(s_8,s_1)}$. Tämän lisäksi $g(s)$ on solmun s kustannusarvio, $rhs(s)$ kertoo arvion solmun $s$ kustannuksesta yhden askeleen päästä, $OPEN$ toimii prioriteettijonona nousevassa järjestyksessä solmuille, joille $g(s) \neq rhs(s)$. $h(s_{start}, s)$ on heuristinen arvio kustannuksesta $s_{start}$ solmusta solmuun $s$.
 
 \section{Visuaalinen odometria}
-Yksi mönkijöiden haasteellisimmista tehtävistä on jatkuvasti ylläpitää tietoa tämän omasta paikasta ja asennosta. Suunnitteluvaiheessa tavoitteeksi asetettiin maksimissaan kymmenen porsentin virhemarginaali sadan metrin matkalla. Tehtävää varten niihin on sijoitettu inertian mittausyksikkö, joka yhdessä rengasodometrian kanssa pyrkii päättelemään kuinka pitkän matkan mönkijä on liikkunut ja missä asennossa se kullakin hetkellä on. Tämä menetelmä toimii hyvin tasaisella sekä hyvälaatuisella maastolla saavuttaen sille asetetun tavoitteen.
+Yksi mönkijöiden haasteellisimmista tehtävistä on jatkuvasti ylläpitää tietoa omasta paikasta ja asennosta. Suunnitteluvaiheessa tavoitteeksi asetettiin maksimissaan kymmenen prosentin virhemarginaali sadan metrin matkalla. Tehtävää varten mönkijöihin on sijoitettu inertian mittausyksikkö, joka yhdessä rengasodometrian kanssa pyrkii päättelemään kuinka pitkän matkan mönkijä on liikkunut ja missä asennossa se kullakin hetkellä on. Tämä menetelmä toimii hyvin tasaisella sekä hyvälaatuisella maastolla saavuttaen sille asetetun tavoitteen.
 
-Ongelmaksi muodostuvat kuitenkin tilanteet, joissa maaston pito pienenee huomattavasti kuten esimerkiksi hiekka-aavikolla. Myös kraaterien kaltaiset kaltevat alueet tuottivat hankaluuksia inertian mittausyksikölle ylläpitää tietoa mönkijän paikasta. Näissä tilanteissa avuksi otetaan visuaalinen odometria, jossa kahdesta eri hetkenä otetusta 256x256 stereokuvaparista tunnistetaan ympäristön piirteitä ja pyritään havaittujen erojen avulla arvioimaan mönkijälle tarkemmat arvot tämän kuudelle vapausasteelle. Tämä ominaisuus kuitenkin hidastaa mönkijän liikkumista yhtä suuruusluokkaa pienemmäksi, joten se kytketään päälle ainoastaan tarvittaessa. \cite{cheng2005visual}
+Ongelmaksi muodostuvat kuitenkin tilanteet, joissa maaston pito pienenee huomattavasti, kuten esimerkiksi hiekka-aavikolla. Myös kraaterien kaltaiset kaltevat alueet tuottivat hankaluuksia inertian mittausyksikölle ylläpitää tietoa mönkijän paikasta. Näissä tilanteissa avuksi otetaan visuaalinen odometria, jossa kahdesta eri hetkenä otetusta 256x256 stereokuvaparista tunnistetaan ympäristön piirteitä ja pyritään havaittujen erojen avulla arvioimaan mönkijälle tarkemmat arvot tämän kuudelle vapausasteelle. Tämä ominaisuus kuitenkin hidastaa mönkijän liikkumista yhtä suuruusluokkaa pienemmäksi, joten se kytketään päälle ainoastaan tarvittaessa. \cite{cheng2005visual}
 
 \subsection{Algoritmi}
 Tarkoituksena on siis löytää kuvaparista sellaiset piirteet, jotka on mahdollista löytää myös lyhyen matkan jälkeen otetusta uudesta kuvaparista. Tämä mahdollistaa melko tarkan arvion tekemisen siitä kuinka paljon kuvan ottaja on liikkunut kuvien ottamisen välillä ja liikkeen suunta saadaan myös selville. Algoritmin lähtökohtana on tilastollinen menetelmä nimeltä suurimman uskottavuuden estimointi. Ensimmäisen tämänkaltaista paikantunnistusmahdollisuutta tutki Larry Matthies vuonna 1986 ja samaan työhön perustuu myös Mars-mönkijöissä käytetty algoritmi \cite{matthies}.
@@ -287,7 +362,7 @@ Tämän vaiheen ymmärtämisen osalta oleellista on ensin perehtyä stereokuvapa
 
 Toinen vaihe siis käyttää yllä esiteltyä menetelmää piirteiden sijainnin laskemiseen. Kameroiden hyvästä kalibroinnista johtuen sovittaminen tehdään epipolaarisella linjalla käyttäen muutaman pikselin kompensaatiopuskuria linjan ylä- ja alapuolella. Parhaan sovituksen saamiseksi kuvapariin sovelletaan Hans Moravecin väitöskirjassaan esittelemää pseudo-normalisoitua korrelaatiota, joka ottaa huomioon esimerkiksi vaihtuvat valaistusolosuhteet\cite{moravec1980obstacle}. Kolmiulotteinen malli luodaan, jotta voitaisiin varmistua myöhemmin otetun kuvaparin piirteiden vastaavan jo valittuja piirteitä. Lopuksi varsinainen sijainti saadaan tutkimalla niitä pisteitä, joissa molemmista kameroista lähtevät säteet leikkaavat yhdessä piirteiden kanssa. Erinäisistä tekijöistä johtuen säteet eivät silti välttämättä kohtaa ja niiden välistä etäisyyttä käytetään sovituksen hyvyysarvona, missä pienempi etäisyys kuvaa parempaa sovitusta.\cite{cheng2005visual}
 
-\begin{figure}[h!]
+\begin{figure}[H]
 	\caption{Vasemmasta kamerasta lähtevä suora $O_L-X$ näkyy oikealle kameralle epipolaarisena linjana $e_R-x_R$. (Kuva: Arne Nordmann, Lisenssi: GFDL)}
 	\centering
 		\includegraphics[width=0.6\textwidth]{epipolar_geometry}
@@ -295,6 +370,12 @@ Toinen vaihe siis käyttää yllä esiteltyä menetelmää piirteiden sijainnin 
 
 \subsubsection{Piirteiden seuraaminen}
 Mönkijän liikuttua noin 75 senttimetrin matkan otetaan toinen kuvapari, jonka kuvien päälle heijastetaan aikaisemmin valitut kiinnostavat piirteet rengasodometrian perusteella. Korrelaatiopohjaisella haulla samat piirteet etsitään uusista kaksiulotteisista kuvista. Nyt uudesta kuvaparista löydetyt halutut piirteet sijoitetaan kolmiulotteiseen malliin edellisen vaiheen tapaan, mutta tällä kertaa sovittaminen on huomattavasti nopeampaa, sillä piirteiden sijainti tiedetään jo edellisen kuvaparin perusteella. Mikäli joidenkin piirteiden sijainti ensimmäisessä kuvaparissa eroaa liikaa toisesta kuvaparista lasketusta sijainnista niin piirteitä ei käytetä enää tulevissa laskuissa.\cite{cheng2005visual}
+
+\begin{figure}[H]
+	\caption{Kuvaparien välinen piirteiden seuraaminen Spiritin näkökulmasta. (Kuva: NASA / \cite{cheng2005visual})}
+	\centering
+		\includegraphics[width=0.8\textwidth]{feature_tracking}
+\end{figure}
 
 \subsubsection{Liikkeen luotettava arviointi}
 Mikäli rengasodometriasta saatu tieto liikutusta matkasta pitää paikkaansa niin molempien kuvaparien sovittamalla luodussa kolmiulotteisessa mallissa piirteiden sijainnit pysyvät ennaltamäärätyn virhemarginaalin sisällä eikä jatkotoimenpiteitä täten tarvita vaan mönkijä pystyy informaation avulla päivittämään sijaintinsa kartalla. 
@@ -337,6 +418,11 @@ Visuaalisen odometrian lisäämä autonomisen liikkumisen turvallisuus taas oli 
 Marsissa viettämästään 394:stä vuorokaudesta Opportunity nojautui visuaaliseen odometriaan 75:nä päivänä. Ajopäiviä mönkijälle kertyi 172, joten algoritmia oli käytössä lähes joka toisena päivänä. Spiritin vastaavat luvut olivat 414 Marsin vuorokautta, joista ajopäiviä oli 184 ja visuaalista odometriaa käytettiin 52:na päivänä. Yhteensä kuvapareja analysoitiin tuona aikana 1 654 kappaletta, joista 1 418 pystyi arvioimaan mönkijän sijainnin sekä asennon riittävän tarkasti. \cite{cheng2005visual}
 
 Huolimatta yllä mainituista ongelmista visuaalinen odometria on yksi mönkijöiden tärkeimmistä työkaluista turvallisen ja itsenäisen liikkumisen toteuttamisessa Marsin pinnalla. Havaituista hyödyistä kertoo myös se, että algoritmi on käytössä vuonna 2011 Marsiin lähetetyssä Curiosity-mönkijässä \cite{grotzinger2012mars}.
+
+\section{Mönkijöiden kehittyminen tulevaisuudessa}
+
+
+\section{Yhteenveto}
 
 \bibliographystyle{alpha}
 \bibliography{references-fi}

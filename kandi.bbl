@@ -7,15 +7,20 @@ Yang Cheng, Mark Maimone, and Larry Matthies.
 \newblock In {\em Systems, Man and Cybernetics, 2005 IEEE International
   Conference on}, volume~1, pages 903--910. IEEE, 2005.
 
-\bibitem[CR09]{marsjuttuja}
-Joseph Carsten and Arturo Rankin.
+\bibitem[CRFS09]{marsjuttuja}
+Joseph Carsten, Arturo Rankin, Dave Ferguson, and Anthony Stentz.
 \newblock Global planning on the mars exploration rovers: Software integration
   and surface testing.
-\newblock {\em Journal of Field Robotics}, 2009.
+\newblock {\em Journal of Field Robotics}, 26(4):337--357, 2009.
+
+\bibitem[FS06]{ferguson2006using}
+Dave Ferguson and Anthony Stentz.
+\newblock Using interpolation to improve path planning: The field d* algorithm.
+\newblock {\em Journal of Field Robotics}, 23(2):79--101, 2006.
 
 \bibitem[FS07]{ferguson2007field}
 Dave Ferguson and Anthony Stentz.
-\newblock Field d*: An interpolation-based path planner and replanner.
+\newblock Field {D}*: An interpolation-based path planner and replanner.
 \newblock In {\em Robotics Research}, pages 239--253. Springer, 2007.
 
 \bibitem[GCV{\etalchar{+}}12]{grotzinger2012mars}
@@ -25,6 +30,14 @@ John~P Grotzinger, Joy Crisp, Ashwin~R Vasavada, Robert~C Anderson, Charles~J
 \newblock Mars science laboratory mission and science investigation.
 \newblock {\em Space Science Reviews}, 170(1-4):5--56, 2012.
 
+\bibitem[HBH{\etalchar{+}}11]{huang2011visual}
+Albert~S Huang, Abraham Bachrach, Peter Henry, Michael Krainin, Daniel
+  Maturana, Dieter Fox, and Nicholas Roy.
+\newblock Visual odometry and mapping for autonomous flight using an {RGB-D}
+  camera.
+\newblock In {\em International Symposium on Robotics Research (ISRR)}, pages
+  1--16, 2011.
+
 \bibitem[Hon10]{hong2010study}
 Wenxian Hong.
 \newblock {\em A study of fast, robust stereo-matching algorithms}.
@@ -32,8 +45,8 @@ Wenxian Hong.
 
 \bibitem[HV04]{harrington2004challenges}
 Brian~D Harrington and Chris Voorhees.
-\newblock The challenges of designing the rocker-bogie suspension for the mars
-  exploration rover.
+\newblock The challenges of designing the {R}ocker-{B}ogie suspension for the
+  mars exploration rover.
 \newblock In {\em 37th Aerospace Mechanisms Symposium, May 19-21, 2004, Johnson
   Space Center, Houston, Texas}. Pasadena, CA: Jet Propulsion Laboratory,
   National Aeronautics and Space Administration, 2004, 2004.
@@ -60,29 +73,62 @@ Larry Matthies and Steven~A Shafer.
 \newblock Error modeling in stereo navigation.
 \newblock {\em Robotics and Automation, IEEE Journal of}, 3(3):239--248, 1987.
 
+\bibitem[NAS96]{rbogieimage}
+NASA.
+\newblock Rover mobility design, 1996.
+\newblock Url visited: 06-10-2014.
+\newblock URL: \url{http://mars.jpl.nasa.gov/MPF/rover/mobility.html}.
+
 \bibitem[NAS14a]{microscope}
 NASA.
 \newblock The microscopic imager, December 2014.
+\newblock Url visited: 06-10-2014.
+\newblock URL:
+  \url{http://mars.nasa.gov/mer/mission/spacecraft_instru_mi.html}.
 
 \bibitem[NAS14b]{abra}
 NASA.
-\newblock Rock abrasion tool (rat), December 2014.
+\newblock Rock abrasion tool ({RAT}), December 2014.
+\newblock Url visited: 06-10-2014.
+\newblock URL:
+  \url{http://mars.nasa.gov/mer/mission/spacecraft_instru_rat.html}.
 
 \bibitem[NAS14c]{roverarm}
 NASA.
 \newblock The rover's "arm", December 2014.
+\newblock Url visited: 06-10-2014.
+\newblock URL:
+  \url{http://mars.nasa.gov/mer/mission/spacecraft_rover_arm.html}.
 
 \bibitem[NAS14d]{cams}
 NASA.
 \newblock The rover's "eyes" and other "senses", December 2014.
+\newblock Url visited: 06-10-2014.
+\newblock URL:
+  \url{http://mars.nasa.gov/mer/mission/spacecraft_rover_eyes.html}.
 
 \bibitem[NAS14e]{spectrometers}
 NASA.
 \newblock Spacecraft: Surface operations: Instruments, December 2014.
+\newblock Url visited: 06-10-2014.
+\newblock URL:
+  \url{http://mars.nasa.gov/mer/mission/spacecraft_surface_instru.html}.
+
+\bibitem[RK96]{rifkin1996end}
+Jeremy Rifkin and Ellen Kruger.
+\newblock {\em The end of work}.
+\newblock Social Planning Council of Winnipeg, 1996.
+
+\bibitem[SFS09]{scaramuzza2009real}
+Davide Scaramuzza, Friedrich Fraundorfer, and Roland Siegwart.
+\newblock Real-time monocular visual odometry for on-road vehicles with 1-point
+  ransac.
+\newblock In {\em Robotics and Automation, 2009. ICRA'09. IEEE International
+  Conference on}, pages 4293--4299. IEEE, 2009.
 
 \bibitem[Ste95]{stentz1995focussed}
 Anthony Stentz.
-\newblock The focussed d\^{}* algorithm for real-time replanning.
+\newblock The focussed {D}* algorithm for real-time replanning.
 \newblock In {\em IJCAI}, volume~95, pages 1652--1659, 1995.
 
 \end{thebibliography}

@@ -29,7 +29,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{microtype}
-\usepackage{amsfonts,amsmath,amssymb,amsthm,booktabs,color,enumitem,graphicx,listings,float}
+\usepackage{amsfonts,amsmath,amssymb,amsthm,booktabs,color,enumitem,graphicx,listings,float,gensymb,url}
 \usepackage[pdftex,hidelinks]{hyperref}
 
 % Automatically set the PDF metadata fields
@@ -77,13 +77,15 @@
 \author{Jerry Mesimäki}
 \date{\today}
 \level{Kandidaatintutkielma}
-\abstract{Tiivistelmä.}
+\abstract{Marsin pinnalle lähetettiin vuonna 2003 kaksi MER-laitetta (Mars Exploration Rover), jotka vaativat kehittynyttä algoritmiikkaa suoriutuakseen sujuvasti toisella planeetalla suoritettavista tieteellisistä tehtävistä. Näiden kahden mönkijän viimeiset kymmenen vuotta vieraan planeetan pinnalla ovat myös toimineet ensimmäistä kertaa kokeilualustana tilanteessa, jossa hyvin kaukana sijaitsevien laitteiden ohjelmistoa on voitu päivittää Maasta käsin ja näin ollen parantaa mönkijöiden kykyä esimerkiksi maastossa navigoinnissa.
+
+Tutkielmassa käydään läpi algoritmit, joilla laitteet suunnistavat Marsissa sekä ylläpitävät tietoa omasta paikastaan. Lukijalle esitellään myös miten reitinhaku on muuttunut vuosien varrella laukaisun jälkeen ja millaisiin tuloksiin mönkijät ovat päässeet algoritmeja käyttämällä.}
 
 % The following can be used to specify keywords and classification of the paper:
 
 \keywords{avainsana 1, avainsana 2, avainsana 3}
 
-\setcounter{secnumdepth}{5}	
+\setcounter{secnumdepth}{3}	
 
 % classification according to ACM Computing Classification System (http://www.acm.org/about/class/)
 % This is probably mostly relevant for computer scientists
@@ -136,6 +138,8 @@ Kosmisessa mittakaavassa etäisyydet ovat aivan omaa luokkaansa ja tästä syyst
 
 Uusimpien mönkijöiden kohdalla on jo mahdollista päivittää näiden ohjelmistoa vaikka ne sijaitsisivat toisella planeetalla. Siksi onkin oleellista jatkaa niissä käytettyjen ohjelmistojen kehittämistä vielä laukaisun jälkeen, jolloin laitteistojen potentiaalinen hyöty kasvaa ja tarve uusien laitteiden lähettämiselle avaruuteen pienenee.
 
+Tämä kandityö käsittelee pääasiassa Marsin pinnalle lähetettyjen mönkijöiden reitinhakualgoritmia nimeltä Field D* sekä visuaalista odometriaa, joka auttaa laitteita ylläpitämään tarkkaa tietoa näiden omasta sijainnistaan käyttäen hyväksi niihin kiinnitettyjä lukuisa stereokamerapareja. Työssä esitellään myös mönkijöiden laitteisto, näiden tehtävät Marsin pinnalla ja perehdytään joihinkin ennalta aavistamattomiin ongelmiin, jotka on saatu ratkaistua vasta laukaisun jälkeen päivittämällä laitteita hallitsevia ohjelmistoja.
+
 \section{MER eli Mars Exploration Rover}
 Marsiin lähetettiin vuonna 2003 Nasan toimesta kaksi MER-laitetta (Mars Explorarion Rover, myöhemmin mönkijä) – Spirit sekä Opportunity – etsimään merkkejä veden esiintymisestä planeetan pinnalta. Yksi ongelmista on mönkijöiden liikuttelu maasta käsin 26 minuuttia kestävän signaalin siirtymisestä aiheutuvan viiveen takia. Tyypillisesti laitteille lähetetään komentoja vain aamuisin kerran Marsin vuorokaudessa (myöhemmin kierto), jotka ne toteuttavat kierron aikana. Ennen iltaa niiden keräämä data taas lähetetään Maahan analysoitavaksi. Tästä johtuen mönkijöiden riittävä autonomia on kriittistä, jotta ne kykenisivät liikkumaan mahdollisimman nopeasti tieteellisesti kiinnostavien kohteiden välillä.
 
@@ -156,9 +160,10 @@ Kokonaisuudessaan tehtävä käsittää seitsemän selkeää tavoitetta, joiden 
 \end{enumerate}
 
 \subsection{Laitteisto}
+Tämä kappale esittelee yleispiirteittäin mönkijöissä käytetyn laitteiston liikkumista koskevien komponenttien, kameroiden sekä tieteellisten instrumenttien osalta. Niiden hahmottaminen on oleellista esimerkiksi visuaalista odometriaa käsittelevän osion ymmärtämisessä, jossa osoitetaan algoritmin kykenevän huomattavan tarkkoihin arvioihin huolimatta mönkijöiden suuresta kokoluokasta.
 
 \subsubsection{Vaatimukset}
-Mönkijöitä koskee joukko liikkeestä vastaavalle laitteistolle asetettuja vähimmäisvaatimuksia: Tarve ylittää 25cm korkuiset esteet, matkata ainakin yksi kilometri laskeutumispaikalta vaihtelevassa maastossa, sietää lämpötilavaihteluja -100C:sta 20C:een ja säilyä toimintakykyisenä 90 Marsin vuorokautta. \cite{lindemann2006mars}
+Mönkijöitä koskee joukko liikkeestä vastaavalle laitteistolle asetettuja vähimmäisvaatimuksia: Tarve ylittää 25cm korkuiset esteet, matkata ainakin yksi kilometri laskeutumispaikalta vaihtelevassa maastossa, sietää lämpötilavaihteluja -100\celsius:sta 20\celsius:een ja säilyä toimintakykyisenä 90 Marsin vuorokautta. \cite{lindemann2006mars}
 
 \subsubsection{Fyysiset ominaisuudet}
 Mönkijöiden pohja on noin 140cm pitkä ja 120cm leveä. Maksimileveys aurinkopaneelien kohdalla on 230cm ja pituus 150cm. Korkeutta molemmilla on enimmillään 150cm, josta 30cm on maavaraa. Täysin varusteltunta yksi mönkijä painaa 176.5 kg.
@@ -168,15 +173,17 @@ Liikkuminen tapahtuu kuudella renkaalla, joista neljää voidaan kääntää toi
 Laitteiston osalta haasteita suunnittelun osalta aiheutti se ettei Marsissa ole ennen Spiritiä ja Opportunityä käynyt muita mönkijöitä kuin vuonna 1997 sinne lähetetty Sojourner, jonka matka kesti hieman alle kolme kuukautta. Tutkijoiden tuli siis pääasiassa luottaa Maan pinnalla tehtyihin kokeiluihin, joissa yritettiin simuloida mahdollisimman tarkasti Marsin olosuhteita. \cite{lindemann2006mars}
 
 \begin{figure}[H]
-	\caption{Rocker-bogie jousituksella varustettu mönkijä tilanteessa, jossa etu- ja takarenkaat ovat kaltevilla pinnoilla.}
 	\centering
-		\includegraphics[width=0.6\textwidth]{rbogie}
+		\includegraphics[width=0.4\textwidth]{rockbogie}
+	\caption{Rocker-bogie jousituksella varustettu mönkijä tilanteessa, jossa etu- ja takarenkaat ovat kaltevilla pinnoilla.\cite{rbogieimage}}
 \end{figure}
 
 \subsubsection{Käsivarsi}
 Erinäisten tieteellisten instrumenttien liikuttelua varten mönkijöihin on sijoitettu kolminivelinen ihmisen käsivartta mukaileva titaaninen käsivarsi (instrument deployment device, IDD).\cite{roverarm}
 
 \subsubsection{Kamerat}
+Mönkijöiden tehtävän suorittamisen kannalta erityisen tärkeässä osassa ovat lukuisat niihin kiinnitetyt kamerat. Kameroiden ottamien kuvien avulla on mahdollista havaita maastossa sijaitsevat vaarat, kartoittaa turvallisimmat reitit, laskea tarkasti mönkijän kulkema matka kahden pisteen välillä ja lisäksi ne välittävät tutkijoille tärkeää tietoa Marsin pinnasta.
+
 \paragraph{Panoraamakamera (Pancam)}\mbox{} \\
 Mönkijän mastoon on kiinnitetty kaksi CCD-kennolla varustettua kameraa, jotka yhdessä muodostavat panoraamakameran. Kameraa voidaan kääntää 360 astetta pystyakselilla sekä 180 astetta horisontaalisella akselilla, jolloin mönkijä kykenee muodostamaan parhaimmillaan 96 miljoonan pikselin panoraamakuvia omasta ympäristöstään. Tarkkuudella pyritään jäljittelemään ihmisen näkökykyä. Panoraamakamera kykenee myös päivittämään Auringon sijainnin perusteella oman suuntansa.\cite{cams}
 
@@ -190,9 +197,9 @@ Visuaalisessa odometriassa käytettävä kuvamateriaali tulee pääosin kahdesta
 Käsivarresta löytyvä mikroskooppi toimii yhdessä CCD-kennollisen kameran kanssa ja sillä pyritään analysoimaan erityisesti merkkejä veden aikaisemmasta esiintymisestä maaperässä.\cite{microscope}
 
 \begin{figure}[H]
-	\caption{Kamerat havainnollistettuna \cite{cams}}
 	\centering
 		\includegraphics[width=1.0\textwidth]{cams}
+	\caption{Kamerat havainnollistettuna \cite{cams}}
 \end{figure}
 
 \subsubsection{Spektrometrit}
@@ -211,15 +218,22 @@ Ongelmaksi MER-laitteiden AutoNav-järjestelmän ensimmäisessä versiossa muodo
 Ratkaisuksi valittiin globaalin reitinhaun tuominen osaksi AutoNav-järjestelmää. Yhdistettynä paikalliseen reitinhakuun eli GESTALT:in kanssa pystytään välttämään niin lähellä sijaitsevat vaaralliset objektit kuin tekemään tarpeellisia havaintoja maastosta, jotta isot esteet voidaan kiertää mahdollisimman tehokkaasti. Globaalin reitinhaun ytimessä toimii algoritmi nimeltä Field D*, joka on vartavasten kehitetty mönkijöiden tarpeisiin.\cite{marsjuttuja}
 
 \section{Field D* ja lineaarinen interpolointi}
-
-\subsection{Aikaisemmat algoritmit}
 Useimmissa mobiilirobotiikan navigaatiosovelluksissa ympäristöä mallinnetaan ruudukkona, jossa jokainen ruutu saa arvokseen jonkin arvion sen kuljettavuudesta. Tällä tavoin robotti voi tarvittaessa väistää ympäristössään sijaitsevia esteitä tai liian vaaralliseksi koettuja alueita. Ruudukon lisäksi yleisesti käytetyt algoritmit generoivat myös verkon, jonka solmut sijoitetaan keskelle jokaista ruutua. Verkon kaaret muodostetaan ruudussa sijaitsevan solmun ja tämän naapuriruutuihin asetettujen solmujen välille. Tässä mallissa reitinhaku verkossa voidaan toteuttaa esimerkiksi Anthony Stentzin vuonna 1995 esittelemän D*-algoritmin avulla \cite{stentz1995focussed}. Pääasialliseksi ongelmaksi jää kuitenkin em. kyky löytää vain sellaiset reitit, joissa robotti liikkuu $\pi/4$:n käännöksillä ruutujen välillä.
 
 \begin{figure}[H]
-	\caption{Esimerkki 45 asteen käännöksiin rajoittuneesta ruudukosta. \cite{marsjuttuja}}
 	\centering
 		\includegraphics[width=0.3\textwidth]{old_grid}
+	\caption{Esimerkki 45 asteen käännöksiin rajoittuneesta ruudukosta. \cite{marsjuttuja}}
 \end{figure}
+
+Ratkaisuksi ongelmaan valittiin seuraavaksi esiteltävä Field D*-algoritmi, joka ratkaisee lineaarisen interpoloinnin avulla robotin kääntymistä koskevat rajoitukset. Tämä mahdollistaa huomattavasti aikaisempaa lyhyempien reittien generoimisen globaalissa mittakaavassa. Algoritmin ovat kehittäneet Dave Ferguson sekä Anthony Stentz Mars-mönkijöitä varten Carnegie Mellon -yliopistossa. \cite{ferguson2006using}
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=0.6\textwidth]{pathi}
+	\caption{Sinisellä kuvattu suorempi reitti on generoitu Field D*-algoritmia käyttäen ja punaisen pidemmän reitin generointiin on käytetty perinteisempää reitinhakualgoritmia, joka ei hyödynnä lineaarista interpolointia\cite{marsjuttuja}.}
+\end{figure}
+
 
 \subsection{Kustannusarvion parantaminen interpoloinnin avulla}
 Algoritmin perustana toimii metodi, jossa jokaisesta ruudukossa sijaitsevasta solmusta lasketaan halvin mahdollinen kustannusarvio haluttuun kohdepisteeseen \cite{ferguson2007field}. Perinteisesti ruudukkopohjaisessa reitinsuunnittelussa on käytetty seuraavaa kaavaa:
@@ -234,9 +248,9 @@ Kaavassa 1 oletetaan, että solmusta \(s\) voidaan siirtyä tämän naapureihin 
 Muokkaamalla verkkoa voimme silti muodostaa approksimaation jokaiselle pisteelle \(s_b\) käyttäen lineaarista interpolointia. Sen sijaan, että solmu sijoitettaisiin ruudun keskelle, asetetaan solmu jokaisen ruudun kulmaan ja täten kaaret kulkevat ruudukon reunoja pitkin. Nyt yhden kaaren kustannus voidaan valita siten, että se on pienempi niistä kahdesta ruudusta joiden välillä se kulkee.
 
 \begin{figure}[H]
-	\caption{Kustannus pisteeseen $s'$ on mahdollista arvioida lineaarista interpolointia hyväksi käyttäen. \cite{marsjuttuja}}
 	\centering
 		\includegraphics[width=0.3\textwidth]{new_grid}
+	\caption{Kustannus pisteeseen $s'$ on mahdollista arvioida lineaarista interpolointia hyväksi käyttäen. \cite{marsjuttuja}}
 \end{figure}
 Tämä muokkaus johtaa siihen, että paras mahdollinen reitti saattaa kulkea jotkin kaksi naapurisolmua $\overrightarrow{s_1s_2}$ yhdistävän kaaren läpi (Kuva 2). Solmulle \(s\) voidaan nyt laskea kustannusarvio, kun reitti kulkee sen ruudun läpi em. kaarelle. Laskemista varten tarvitaan arviot solmujen \(s_1\) ja \(s_2\) sekä keskimmäisen ruudun \(c\) ja alemman ruudun \(b\) kustannuksista.
 
@@ -266,6 +280,7 @@ Kustannuksen derivaatasta suhteessa \(y\):hyn ja asettamalla se nollaksi saadaan
 
 Lopputulos on sama huolimatta siitä kuljetaanko alareunaa pitkin, joten merkitseväksi tekijäksi jää se kumpaa reunaa kulkeminen tulee halvemmaksi. Mikäli \(f < b\) niin käytetään oikeaa reunaa ja lasketaan polun kustannus arvolla \(k = f\). Jos taas \(b < f\) niin käytetään alareunaa jolloin \(k = b\) ja \(y^* = 1 - x^*\). Täten algoritmi halvimman polun laskemiseen solmusta \(s\) mihin tahansa pisteeseen kaarelle, joka sijaitsee vierekkäisten naapurien \(s_a\) ja \(s_b\) välissä laskemiseen on seuraava:
 
+\begin{figure}[H]
 \lstset{basicstyle=\footnotesize, tabsize=4}
 \begin{lstlisting}[mathescape=true]
 ComputeCost($s,s_a,s_b$)
@@ -299,10 +314,12 @@ ComputeCost($s,s_a,s_b$)
 				$v_s = c\sqrt{1+(1-x)^2}+bx+g(s_2);$
 	return $v_s$;
 \end{lstlisting}
+\end{figure}
 
 \subsection{Field D*}
 Algoritmi on optimoimaton esimerkki Field D*:in toteutuksesta \cite{ferguson2007field}, joka pohjautuu aikaisempaan D* Lite-algoritmiin \cite{koenig2002d}. Sen tarkoituksena on koota ylempänä esitellyn interpoloinnin avulla lasketut kustannukset yhteen ja muodostaa edullisin reitti kahden pisteen välillä. Algoritmi on toteutettu siten, että se ottaa huomioon muutokset ympäristössä, joita voi syntyä esimerkiksi sään muuttumisen seurauksena.
 
+\begin{figure}[H]
 \lstset{basicstyle=\footnotesize, tabsize=4}
 \begin{lstlisting}[mathescape=true]
 key($s$)
@@ -341,6 +358,7 @@ Main()
 
 
 \end{lstlisting}
+\end{figure}
 
 Pseudokoodissa $connbrs(s)$ on joukko solmun $s$ perättäisiä naapuripareja: ${(s_1,s_2), (s_2,s_3), (s_3,s_4),(s_4,s_5),(s_5,s_6),(s_6,s_7),(s_7,s_8),(s_8,s_1)}$. Tämän lisäksi $g(s)$ on solmun s kustannusarvio, $rhs(s)$ kertoo arvion solmun $s$ kustannuksesta yhden askeleen päästä, $OPEN$ toimii prioriteettijonona nousevassa järjestyksessä solmuille, joille $g(s) \neq rhs(s)$. $h(s_{start}, s)$ on heuristinen arvio kustannuksesta $s_{start}$ solmusta solmuun $s$.
 
@@ -363,18 +381,18 @@ Tämän vaiheen ymmärtämisen osalta oleellista on ensin perehtyä stereokuvapa
 Toinen vaihe siis käyttää yllä esiteltyä menetelmää piirteiden sijainnin laskemiseen. Kameroiden hyvästä kalibroinnista johtuen sovittaminen tehdään epipolaarisella linjalla käyttäen muutaman pikselin kompensaatiopuskuria linjan ylä- ja alapuolella. Parhaan sovituksen saamiseksi kuvapariin sovelletaan Hans Moravecin väitöskirjassaan esittelemää pseudo-normalisoitua korrelaatiota, joka ottaa huomioon esimerkiksi vaihtuvat valaistusolosuhteet\cite{moravec1980obstacle}. Kolmiulotteinen malli luodaan, jotta voitaisiin varmistua myöhemmin otetun kuvaparin piirteiden vastaavan jo valittuja piirteitä. Lopuksi varsinainen sijainti saadaan tutkimalla niitä pisteitä, joissa molemmista kameroista lähtevät säteet leikkaavat yhdessä piirteiden kanssa. Erinäisistä tekijöistä johtuen säteet eivät silti välttämättä kohtaa ja niiden välistä etäisyyttä käytetään sovituksen hyvyysarvona, missä pienempi etäisyys kuvaa parempaa sovitusta.\cite{cheng2005visual}
 
 \begin{figure}[H]
-	\caption{Vasemmasta kamerasta lähtevä suora $O_L-X$ näkyy oikealle kameralle epipolaarisena linjana $e_R-x_R$. (Kuva: Arne Nordmann, Lisenssi: GFDL)}
 	\centering
 		\includegraphics[width=0.6\textwidth]{epipolar_geometry}
+	\caption{Vasemmasta kamerasta lähtevä suora $O_L-X$ näkyy oikealle kameralle epipolaarisena linjana $e_R-x_R$. (Kuva: Arne Nordmann, Lisenssi: GFDL)}
 \end{figure}
 
 \subsubsection{Piirteiden seuraaminen}
 Mönkijän liikuttua noin 75 senttimetrin matkan otetaan toinen kuvapari, jonka kuvien päälle heijastetaan aikaisemmin valitut kiinnostavat piirteet rengasodometrian perusteella. Korrelaatiopohjaisella haulla samat piirteet etsitään uusista kaksiulotteisista kuvista. Nyt uudesta kuvaparista löydetyt halutut piirteet sijoitetaan kolmiulotteiseen malliin edellisen vaiheen tapaan, mutta tällä kertaa sovittaminen on huomattavasti nopeampaa, sillä piirteiden sijainti tiedetään jo edellisen kuvaparin perusteella. Mikäli joidenkin piirteiden sijainti ensimmäisessä kuvaparissa eroaa liikaa toisesta kuvaparista lasketusta sijainnista niin piirteitä ei käytetä enää tulevissa laskuissa.\cite{cheng2005visual}
 
 \begin{figure}[H]
-	\caption{Kuvaparien välinen piirteiden seuraaminen Spiritin näkökulmasta. (Kuva: NASA / \cite{cheng2005visual})}
 	\centering
 		\includegraphics[width=0.8\textwidth]{feature_tracking}
+	\caption{Kuvaparien välinen piirteiden seuraaminen Spiritin näkökulmasta. (Kuva: NASA / \cite{cheng2005visual})}
 \end{figure}
 
 \subsubsection{Liikkeen luotettava arviointi}
@@ -419,12 +437,16 @@ Marsissa viettämästään 394:stä vuorokaudesta Opportunity nojautui visuaalis
 
 Huolimatta yllä mainituista ongelmista visuaalinen odometria on yksi mönkijöiden tärkeimmistä työkaluista turvallisen ja itsenäisen liikkumisen toteuttamisessa Marsin pinnalla. Havaituista hyödyistä kertoo myös se, että algoritmi on käytössä vuonna 2011 Marsiin lähetetyssä Curiosity-mönkijässä \cite{grotzinger2012mars}.
 
-\section{Mönkijöiden kehittyminen tulevaisuudessa}
-
-
 \section{Yhteenveto}
+Reitinhaun ja konenäön toteuttaminen Marsin pinnalla kulkeviin robotteihin on vuosisatojen mittaisen tieteellisen tutkimuksen tulos, joka kattaa osa-alueita aina Gaussin kehittämistä tilastotieteellisista menetelmistä klassiseen mekaniikkaan. Erityisesti keskiössä ovat kuitenkin edellämainittuja tutkimuksia hyödyntävät algoritmit, jotka lopuksi määräävät sen mihin itsenäisesti toimiva mönkijä kykenee ja kuinka paljon sellaisen lähettämisestä vieraan planeetan pinnalle on hyötyä.
 
-\bibliographystyle{alpha}
+Jo Spirit sekä Opportunity osoittivat, että vaikka ne kykenivät suorittamaan tehtäväänsä melko tehokkaasti jo heti laskeutumisensa jälkeen niin edelleen on silti tarve kehittää entistä tehokkaampia ja tarkempia algoritmeja, jotta laitteisiin käytetyt resurssit hyödynnettäisiin maksimaalisesti. Uusien versioiden kokeileminen on onneksi mahdollista suoraan toisella planeetalla ja tulevaisuudessa kehitettävissä mönkijöissä käytettävät ohjelmistot voidaan osittain koeajaa jo ennen mönkijöiden rakentamista. Tämän vuosituhannen alussa Marsiin lähetettyjä mönkijöitä tullaan varmasti pitämään avaruustutkimuksen pioneereina, sillä niiden avulla ihminen on ensimmäistä kertaa voinut tutkia vieraan maailman pintaa käymättä siellä itse fyysisesti.
+
+Näiden algoritmien käyttökohteet eivät myöskään rajoitu ainoastaan avaruuden tutkimiseen vaan niitä voidaan hyödyntää esimerkiksi Maassa mitä erilaisimpiin tarkoitusperiin, kuten miehittämättömiin lennokkeihin \cite{huang2011visual} tai autonomisesti kaupungissa suunnistaviin autoihin \cite{scaramuzza2009real}. Tekoälypohjaisen automaation ennustetaan myös aikanaan korvaavan ihmisen lähestulkoon kaikissa sellaisissa töissä, jotka vain ovat automatisoitavissa \cite{rifkin1996end}, joka osaltaan vapauttaa ihmiset työskentelemään avaruusteknologian kaltaisten ihmiskuntaa edistävien projektien parissa.
+
+Toistaiseksi saatujen kokemusten perusteella Field D* ja esitelty visuaalisen odometrian toteutusmuoto ovat siis päteviä tapoja toteuttaa tieteellisiä tehtäviä suorittavien mönkijöiden liikkumiskyky vieraalla planeetalla. Verrattaen lyhyessä ajassa on kuitenkin tapahtunut huomattavasti kehitystä, jonka voidaan katsoa edistäneen laitteiden toimintaa oleellisesti, joten on syytä olettaa, että tutkimalla asiaa lisää on mahdollista kehittää tarkoitukseen entistä sopivampia algoritmeja.
+
+\bibliographystyle{alphaurl}
 \bibliography{references-fi}
 
 
